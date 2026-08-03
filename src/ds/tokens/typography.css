@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap');
+:root{
+  /* Poppins (display) matches the logo's geometric single-story "a" and circular bowls.
+     Work Sans (body) pairs a plain grotesque for long-form legibility. Google Fonts substitutes — no font files were supplied. */
+  --font-display:'Poppins',ui-sans-serif,system-ui,sans-serif;
+  --font-body:'Work Sans',ui-sans-serif,system-ui,sans-serif;
+
+  --text-xs:0.75rem;
+  --text-sm:0.875rem;
+  --text-base:1rem;
+  --text-md:1.125rem;
+  --text-lg:1.375rem;
+  --text-xl:1.75rem;
+  --text-2xl:2.25rem;
+  --text-3xl:3rem;
+  --text-4xl:3.75rem;
+
+  --leading-tight:1.1;
+  --leading-snug:1.3;
+  --leading-normal:1.5;
+  --leading-relaxed:1.65;
+
+  --weight-regular:400;
+  --weight-medium:500;
+  --weight-semibold:600;
+  --weight-bold:700;
+  --weight-extrabold:800;
+
+  --tracking-tight:-0.02em;
+  --tracking-normal:0;
+  --tracking-wide:0.04em;
+}

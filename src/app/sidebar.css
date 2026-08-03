@@ -1,0 +1,137 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-main-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.os-sidebar {
+  width: 240px;
+  flex: none;
+  background: var(--ink-900);
+  color: var(--ink-200);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-4);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.os-sb-logo {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: var(--weight-bold);
+  color: var(--white);
+  margin: 0 var(--space-2) var(--space-8);
+}
+
+.os-sb-logo span {
+  color: var(--green-500);
+}
+
+.os-sb-group {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-600);
+  margin: var(--space-5) 0 var(--space-2) var(--space-3);
+}
+
+.os-sb-section:first-child .os-sb-group {
+  margin-top: 0;
+}
+
+.os-sb-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 9px var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--ink-200);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  transition: background var(--duration-normal) var(--ease-standard);
+}
+
+.os-sb-item:hover,
+.os-sb-item:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink-200);
+  text-decoration: none;
+}
+
+.os-sb-item:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+.os-sb-item .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.os-sb-item-active,
+.os-sb-item-active:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+}
+
+.os-sb-item-active .material-symbols-outlined {
+  color: var(--green-500);
+}
+
+/* Below the two-column threshold the rail becomes a scrolling strip across the
+   top; group labels drop out because the icons and text carry enough meaning. */
+@media (max-width: 900px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .os-sidebar {
+    width: auto;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .os-sb-logo {
+    margin: 0 var(--space-4) 0 0;
+    flex: none;
+  }
+
+  .os-sb-section {
+    display: contents;
+  }
+
+  .os-sb-group {
+    display: none;
+  }
+
+  .os-sb-item {
+    flex: none;
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .os-sb-item {
+    transition: none;
+  }
+}

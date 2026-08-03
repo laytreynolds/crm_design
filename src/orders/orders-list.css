@@ -1,0 +1,335 @@
+.ol-page {
+  padding: var(--space-8) var(--space-8) var(--space-24);
+  font-family: var(--font-body);
+}
+
+.ol-page-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.ol-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.ol-page-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+}
+
+/* Toolbar ------------------------------------------------------------------ */
+
+.ol-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.ol-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.ol-search {
+  display: flex;
+  align-items: stretch;
+}
+
+.ol-search-input {
+  height: 36px;
+  min-width: 220px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--border-default);
+  border-right: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+
+.ol-search-input:focus {
+  outline: none;
+  border-color: var(--color-brand);
+}
+
+.ol-search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.ol-search-btn {
+  width: 40px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-brand);
+  border: 1px solid var(--color-brand);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.ol-search-btn:hover {
+  background: var(--color-brand-hover);
+  border-color: var(--color-brand-hover);
+}
+
+/* Filter panel ----------------------------------------------------------- */
+
+.ol-filters {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5) var(--space-6);
+}
+
+.ol-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-5) var(--space-6);
+}
+
+.ol-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ol-filter-field label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-brand-hover);
+}
+
+.ol-filter-field select {
+  height: 40px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-page);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+
+.ol-filter-field select:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-tint-strong);
+}
+
+.ol-daterange {
+  height: 40px;
+  width: 100%;
+  padding: 0 var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-page);
+  color: var(--text-tertiary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.ol-daterange:hover,
+.ol-daterange:focus-visible {
+  border-color: var(--text-primary);
+}
+
+.ol-daterange .material-symbols-outlined {
+  color: var(--text-secondary);
+  flex: none;
+}
+
+.ol-filters-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-5);
+}
+
+@media (max-width: 1100px) {
+  .ol-filters-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .ol-filters-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Table ---------------------------------------------------------------- */
+
+.ol-table-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.ol-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.ol-table th {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-secondary);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  border-bottom: 1px solid var(--border-default);
+  white-space: nowrap;
+}
+
+.ol-table td {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  vertical-align: top;
+}
+
+.ol-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ol-table tbody tr:hover {
+  background: var(--surface-subtle);
+}
+
+.ol-col-check {
+  width: 40px;
+}
+
+.ol-col-check input {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.ol-business-link {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  color: var(--text-link);
+  cursor: pointer;
+  text-align: left;
+}
+
+.ol-business-link:hover,
+.ol-business-link:focus-visible {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
+
+.ol-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) 10px;
+  margin-top: 4px;
+}
+
+.ol-row-actions button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: var(--text-xs);
+  color: var(--text-link);
+  cursor: pointer;
+}
+
+.ol-row-actions button:hover,
+.ol-row-actions button:focus-visible {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
+
+.ol-cell-truncate {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ol-empty {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: var(--space-8) var(--space-4);
+}
+
+/* Status chips ----------------------------------------------------------
+   Solid-fill chips distinct from the tinted `.cds-badge` tones used
+   elsewhere — this table mirrors the reference CRM's status colors. */
+
+.ol-status {
+  display: inline-block;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  vertical-align: middle;
+  text-align: center;
+}
+
+.ol-status--awaiting {
+  background: var(--ink-900);
+}
+
+.ol-status--declined {
+  background: #d9584f;
+}
+
+.ol-status--process {
+  background: #f0a530;
+}
+
+.ol-status--stock {
+  background: #a3ad2f;
+}
+
+.ol-toast-anchor {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+}
+
+@media (max-width: 720px) {
+  .ol-page {
+    padding: var(--space-5) var(--space-4) var(--space-16);
+  }
+}

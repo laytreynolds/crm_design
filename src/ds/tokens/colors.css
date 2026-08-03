@@ -1,0 +1,52 @@
+:root{
+  /* brand green — extracted from PDF content streams (0.44314 0.71372 0.61569 rg) and cross-checked against logo pixels */
+  --green-50:#f4f9f7;
+  --green-100:#e5f2ed;
+  --green-200:#cce5dc;
+  --green-300:#afd6c8;
+  --green-400:#90c6b3;
+  --green-500:#71b69d;
+  --green-600:#629c87;
+  --green-700:#517f6e;
+  --green-800:#436559;
+
+  /* neutrals — extracted from PDF (0.223 charcoal, 0.459/0.420 mid grays, 0.851/0.898 light grays) */
+  --ink-900:#1c1c1c;
+  --ink-800:#393939;
+  --ink-600:#6b6b6b;
+  --ink-500:#757575;
+  --ink-200:#d9d9d9;
+  --ink-100:#e5e5e5;
+  --ink-50:#f6f6f6;
+  --white:#ffffff;
+
+  /* semantic aliases */
+  --color-brand:var(--green-500);
+  --color-brand-hover:var(--green-600);
+  --color-brand-active:var(--green-700);
+  --color-brand-tint:var(--green-50);
+  --color-brand-tint-strong:var(--green-100);
+
+  --text-primary:var(--ink-800);
+  --text-secondary:var(--ink-500);
+  --text-tertiary:var(--ink-600);
+  --text-on-brand:var(--white);
+  --text-link:var(--green-600);
+  --text-link-hover:var(--green-700);
+
+  --surface-page:var(--white);
+  --surface-subtle:var(--ink-50);
+  --surface-raised:var(--white);
+  --surface-inverse:var(--ink-800);
+
+  --border-default:var(--ink-200);
+  --border-subtle:var(--ink-100);
+  --border-strong:var(--ink-600);
+  --border-brand:var(--green-500);
+
+  --state-success:var(--green-600);
+  --state-danger:#c0524a;
+  --state-warning:#c98a2e;
+
+  --focus-ring:var(--green-400);
+}

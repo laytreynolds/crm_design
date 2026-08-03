@@ -1,0 +1,110 @@
+.app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-6);
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.app-topbar-collapse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 6px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.app-topbar-collapse:hover {
+  background: var(--surface-subtle);
+  color: var(--text-primary);
+}
+
+.app-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.app-topbar-icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 6px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.app-topbar-icon-btn:hover {
+  background: var(--surface-subtle);
+  color: var(--text-primary);
+}
+
+.app-topbar-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--radius-pill);
+  background: var(--state-danger);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.app-topbar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.app-topbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f6d9e4;
+  color: #b83c74;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  flex: none;
+}
+
+.app-topbar-user-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.app-topbar-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.app-topbar-email {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .app-topbar-user-text {
+    display: none;
+  }
+}

@@ -1,0 +1,381 @@
+/* Order page layout. Anything reusable lives in the design system; these rules
+   are the page-specific composition on top of it. */
+
+body {
+  background: var(--surface-subtle);
+}
+
+/* The shell owns full-height layout; this is just the content column. */
+.os-page {
+  padding: var(--space-8) var(--space-8) var(--space-24);
+  font-family: var(--font-body);
+}
+
+.os-page-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Header ------------------------------------------------------------------ */
+
+.os-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+.os-header-eyebrow {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: var(--weight-medium);
+}
+
+.os-header-name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.os-header-meta {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* Each pill wraps as a unit instead of the flex row squeezing them. */
+.os-header-meta > * {
+  flex: none;
+  white-space: nowrap;
+}
+
+.os-header-meta strong {
+  color: var(--text-primary);
+}
+
+.os-header-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.os-header-buttons {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.os-draft-status {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 18px;
+}
+
+.os-draft-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  flex: none;
+}
+
+.os-actionbar {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* Section jump nav -------------------------------------------------------- */
+
+.os-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--surface-subtle);
+  padding: var(--space-3) 0;
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.os-navlink {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+  background: var(--surface-page);
+  border: 1px solid var(--border-default);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background var(--duration-normal) var(--ease-standard),
+    border-color var(--duration-normal) var(--ease-standard),
+    color var(--duration-normal) var(--ease-standard);
+}
+
+.os-navlink:hover,
+.os-navlink:focus-visible {
+  background: var(--color-brand-tint);
+  border-color: var(--color-brand);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.os-navlink:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Sections ---------------------------------------------------------------- */
+
+.os-section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Rendered as a <button> so the collapse toggle is keyboard reachable, with
+   the browser chrome stripped back to the plain heading row in the design. */
+.os-sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.os-sec-head:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* The heading wraps the toggle so the collapse control is announced with its
+   section name; spacing lives on the heading unless a row wrapper owns it. */
+.os-sec-heading {
+  margin: 0;
+  letter-spacing: normal;
+}
+
+.os-sec-heading--spaced {
+  margin-bottom: var(--space-5);
+}
+
+.os-sec-head-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.os-sec-head-row > .os-sec-heading {
+  flex: 1;
+}
+
+.os-chevron {
+  color: var(--text-secondary);
+  transition: transform var(--duration-normal) var(--ease-standard);
+}
+
+.os-chevron--open {
+  transform: rotate(180deg);
+}
+
+/* Field grids ------------------------------------------------------------- */
+
+.os-grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5) var(--space-6);
+}
+
+.os-grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5) var(--space-6);
+}
+
+.os-subhead {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  margin: var(--space-6) 0 var(--space-4) 0;
+}
+
+.os-subhead:first-child {
+  margin-top: 0;
+}
+
+.os-field-row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+/* Keeps the input from overflowing its grid track next to the copy button. */
+.os-field-grow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Addresses --------------------------------------------------------------- */
+
+.os-addr-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.os-addr-label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.os-addr-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Special requirement ----------------------------------------------------- */
+
+.os-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.os-label-row label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.os-ta {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  resize: vertical;
+}
+
+.os-ta:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-tint-strong);
+}
+
+/* Notes ------------------------------------------------------------------- */
+
+.os-note {
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.os-note:last-child {
+  margin-bottom: 0;
+}
+
+.os-note-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.os-note-top > .os-field-grow {
+  flex: 1;
+}
+
+.os-note-meta {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.os-empty {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+/* Toast ------------------------------------------------------------------- */
+
+.os-toast-anchor {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+}
+
+/* Responsive -------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .os-grid3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .os-page {
+    padding: var(--space-5) var(--space-4) var(--space-16);
+  }
+
+  .os-grid3,
+  .os-grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .os-header-actions {
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .os-chevron,
+  .os-navlink {
+    transition: none;
+  }
+}
