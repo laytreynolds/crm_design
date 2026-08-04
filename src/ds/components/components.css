@@ -63,8 +63,8 @@
 .cds-toast--success{background:var(--green-700)}
 .cds-toast--danger{background:var(--state-danger)}
 
-.cds-dialog-overlay{position:fixed;inset:0;background:rgba(28,28,28,.45);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
-.cds-dialog{background:var(--surface-page);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:var(--space-8);width:360px;font-family:var(--font-body)}
+.cds-dialog-overlay{position:fixed;inset:0;z-index:60;background:rgba(28,28,28,.45);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px);padding:var(--space-4)}
+.cds-dialog{background:var(--surface-page);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:var(--space-8);width:360px;max-width:100%;font-family:var(--font-body)}
 .cds-dialog h3{font-family:var(--font-display);margin-bottom:8px}
 .cds-dialog p{color:var(--text-secondary);font-size:var(--text-sm);line-height:var(--leading-relaxed)}
 .cds-dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:var(--space-6)}

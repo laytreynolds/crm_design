@@ -24,6 +24,16 @@
   color: var(--text-primary);
 }
 
+.app-topbar-brand {
+  display: none;
+}
+
+.app-topbar-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .app-topbar-right {
   display: flex;
   align-items: center;
@@ -166,5 +176,16 @@
 @media (max-width: 640px) {
   .app-topbar-user-text {
     display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .app-topbar-collapse {
+    display: none;
+  }
+
+  .app-topbar-brand {
+    display: block;
+    width: 84px;
   }
 }

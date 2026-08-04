@@ -29,6 +29,10 @@ export function Topbar() {
         <Icon name="left_panel_close" size={20} />
       </button>
 
+      <div className="app-topbar-brand">
+        <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Chadwell" />
+      </div>
+
       <div className="app-topbar-right">
         <button type="button" className="app-topbar-icon-btn" aria-label="Notifications">
           <Icon name="notifications" size={20} />

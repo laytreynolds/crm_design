@@ -70,6 +70,14 @@ export function App() {
       setScreen('settings-detail');
       return;
     }
+    // 'settings' itself isn't a settingId — on desktop it's just an expand
+    // toggle in the sidebar, but the mobile tab bar has nowhere to reveal
+    // its children, so tapping it needs to land somewhere.
+    if (navId === 'settings') {
+      setSettingId('settings-lead-status');
+      setScreen('settings-detail');
+      return;
+    }
     const target = NAV_SCREEN[navId];
     if (target) setScreen(target);
   }

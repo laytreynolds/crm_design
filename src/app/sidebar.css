@@ -170,27 +170,47 @@
   border-color: var(--green-500);
 }
 
-/* Below the two-column threshold the rail becomes a scrolling strip across the
-   top; group labels drop out because the icons and text carry enough meaning. */
+/* Below the two-column threshold the rail becomes a fixed tab bar pinned to
+   the bottom of the viewport (thumb reach beats a top-mounted strip on
+   mobile). The brand mark moves into the topbar instead — see topbar.css. */
 @media (max-width: 900px) {
   .app-shell {
     flex-direction: column;
   }
 
+  .app-main {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+
   .os-sidebar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    z-index: 40;
     width: auto;
     height: auto;
     flex-direction: row;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    padding-bottom: env(safe-area-inset-bottom);
     overflow-x: auto;
     overflow-y: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .os-sb-logo {
-    margin: 0 var(--space-4) 0 0;
-    flex: none;
+    display: none;
+  }
+
+  .os-sidebar nav {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    flex: 1;
+    width: 100%;
   }
 
   .os-sb-section {
@@ -202,8 +222,26 @@
   }
 
   .os-sb-item {
+    flex: 1;
+    min-width: 64px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    padding: 8px 4px;
+    border-radius: 0;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .os-sb-item-active,
+  .os-sb-item-active:hover {
+    background: none;
+  }
+
+  .os-sb-item-label {
     flex: none;
-    white-space: nowrap;
+    font-size: 10px;
+    line-height: 1.2;
   }
 
   .os-sb-chevron {
