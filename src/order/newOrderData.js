@@ -60,8 +60,11 @@ export const blankOrder = {
     accountName: '',
     accountNumber: '',
     sortCode: '',
+    directDebitDueDate: '',
     bankName: '',
     bankBranch: '',
     timeWithBank: '',
+    recurringCardPayment: false,
+    inCreditControl: false,
   },
 };

@@ -6,7 +6,7 @@
  * Field shape:
  *   path        dot-path into the order object (also the React key)
  *   label       visible label, and the noun used in the "… copied" toast
- *   type        'text' (default) | 'date' | 'email' | 'select'
+ *   type        'text' (default) | 'date' | 'email' | 'select' | 'checkbox'
  *   options     key into SELECT_OPTIONS, required when type is 'select'
  *   hint        helper text under the control
  *   placeholder placeholder text
@@ -242,6 +242,11 @@ export const SECTIONS = [
       { path: 'bankDetails.accountName', label: 'Account name', placeholder: 'e.g. J Smith' },
       { path: 'bankDetails.accountNumber', label: 'Account number', placeholder: 'e.g. 12345678' },
       { path: 'bankDetails.sortCode', label: 'Sort code', placeholder: 'e.g. 12-34-56' },
+      {
+        path: 'bankDetails.directDebitDueDate',
+        label: 'Direct debit due date',
+        type: 'date',
+      },
       { path: 'bankDetails.bankName', label: 'Bank name', placeholder: 'e.g. HSBC Bank' },
       { path: 'bankDetails.bankBranch', label: 'Bank branch' },
       {
@@ -249,6 +254,48 @@ export const SECTIONS = [
         label: 'Time with bank',
         type: 'select',
         options: 'timeWithBank',
+      },
+    ],
+  },
+  {
+    key: 'finance',
+    id: 'finance',
+    nav: 'Finance',
+    title: 'Finance',
+    groups: [
+      {
+        subhead: 'Bank details',
+        layout: 'grid2',
+        fields: [
+          { path: 'bankDetails.accountName', label: 'Account name', placeholder: 'e.g. J Smith' },
+          {
+            path: 'bankDetails.accountNumber',
+            label: 'Account number',
+            placeholder: 'e.g. 12345678',
+          },
+          { path: 'bankDetails.sortCode', label: 'Sort code', placeholder: 'e.g. 12-34-56' },
+          {
+            path: 'bankDetails.directDebitDueDate',
+            label: 'Direct debit due date',
+            type: 'date',
+          },
+        ],
+      },
+      {
+        subhead: 'Payment status',
+        layout: 'grid2',
+        fields: [
+          {
+            path: 'bankDetails.recurringCardPayment',
+            label: 'Recurring card payment',
+            type: 'checkbox',
+          },
+          {
+            path: 'bankDetails.inCreditControl',
+            label: 'In credit control',
+            type: 'checkbox',
+          },
+        ],
       },
     ],
   },
