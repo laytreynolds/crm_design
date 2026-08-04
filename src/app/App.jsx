@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppShell } from './AppShell.jsx';
 import { OrderPage } from '../order/OrderPage.jsx';
 import { NewOrderPage } from '../order/NewOrderPage.jsx';
@@ -38,11 +38,31 @@ const SCREEN_NAV = {
   'permissions-list': 'permissions',
 };
 
+// Screen/settingId are kept in sessionStorage so a refresh reopens the same
+// page. sessionStorage is cleared when the tab/browser closes, so the very
+// next visit still lands on the dashboard.
+const SESSION_KEY = 'crm:screen';
+
+function readStoredScreen() {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
 export function App() {
-  const [screen, setScreen] = useState('orders-list');
+  const stored = readStoredScreen();
+  const [screen, setScreen] = useState(stored?.screen ?? 'dashboard');
   const [focusSection, setFocusSection] = useState(null);
   const [clientMode, setClientMode] = useState('view');
-  const [settingId, setSettingId] = useState(null);
+  const [settingId, setSettingId] = useState(stored?.settingId ?? null);
+
+  useEffect(() => {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ screen, settingId }));
+  }, [screen, settingId]);
 
   function handleNavigate(navId) {
     if (navId in SETTINGS_CONFIG) {
