@@ -22,6 +22,7 @@ export const SELECT_OPTIONS = {
     { value: 'Sole Trader', label: 'Sole Trader' },
     { value: 'Partnership', label: 'Partnership' },
     { value: 'Limited Company', label: 'Limited Company' },
+    { value: 'Consumer', label: 'Consumer' },
   ],
   simCard: [
     SELECT_PLACEHOLDER,
