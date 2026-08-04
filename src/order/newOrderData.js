@@ -1,0 +1,67 @@
+/**
+ * Blank order used to seed the "New Order" form. Same shape as orderData.js
+ * minus fulfilment and notes, which only apply once an order exists, plus
+ * timeAtAddress which drives whether the previous address block shows.
+ */
+export const blankOrder = {
+  account: { customerType: '', fullName: '', accountRef: '', accountNumber: '', dob: '' },
+  contact: { mobile: '', landline: '', email: '' },
+  billingAddress: { line1: '', line2: '', city: '', postcode: '' },
+  previousAddress: { line1: '', line2: '', city: '', postcode: '' },
+  deliveryAddress: { line1: '', line2: '', city: '', postcode: '' },
+  timeAtAddress: '',
+  currentPackage: { network: '', handset: '', speed: '', eligibilityDate: '' },
+  saleDetails: {
+    handsetOld: '',
+    tariffOld: '',
+    agentName: '',
+    eligibilityDate: '',
+    saleType: '',
+    boxValue: '',
+    simCard: '',
+    quoteId: '',
+    speedCap: '',
+    contractTerm: '',
+    contractEndTermDate: '',
+  },
+  additionalSale: {
+    cashback: '',
+    additionalFunding: '',
+    pacCode: '',
+    portingMobile: '',
+    networkAccountNumber: '',
+    businessConsumer: '',
+    newNetwork: '',
+    connectionDate: '',
+    portDate: '',
+  },
+  handsetSelect: {
+    catalogId: '',
+    make: '',
+    model: '',
+    color: '',
+    memory: '',
+    price: '',
+    supplier: '',
+  },
+  tariffType: {
+    catalogId: '',
+    code: '',
+    price: '',
+    minutes: '',
+    texts: '',
+    data: '',
+    duration: '',
+  },
+  buyout: '',
+  boltOns: '',
+  specialRequirement: '',
+  bankDetails: {
+    accountName: '',
+    accountNumber: '',
+    sortCode: '',
+    bankName: '',
+    bankBranch: '',
+    timeWithBank: '',
+  },
+};

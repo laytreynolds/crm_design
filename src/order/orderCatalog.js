@@ -1,0 +1,125 @@
+/**
+ * Handset and tariff catalogs backing the dropdowns in the "Handset &
+ * tariff selection" section. Picking an entry fills in the individual
+ * fields below it; the fields stay editable afterwards for one-off
+ * adjustments (e.g. a negotiated price).
+ */
+const SELECT_PLACEHOLDER = { value: '', label: 'Select…' };
+
+export const HANDSET_OPTIONS = [
+  SELECT_PLACEHOLDER,
+  {
+    value: 'apple-iphone15-128-black',
+    label: 'Apple iPhone 15 128GB — Black',
+    make: 'Apple',
+    model: 'iPhone 15',
+    color: 'Black',
+    memory: '128GB',
+    price: '£799.00',
+    supplier: 'Brightstar',
+  },
+  {
+    value: 'apple-iphone15-256-blue',
+    label: 'Apple iPhone 15 256GB — Blue',
+    make: 'Apple',
+    model: 'iPhone 15',
+    color: 'Blue',
+    memory: '256GB',
+    price: '£899.00',
+    supplier: 'Brightstar',
+  },
+  {
+    value: 'samsung-s24-128-black',
+    label: 'Samsung Galaxy S24 128GB — Onyx Black',
+    make: 'Samsung',
+    model: 'Galaxy S24',
+    color: 'Onyx Black',
+    memory: '128GB',
+    price: '£699.00',
+    supplier: 'Ingram Micro',
+  },
+  {
+    value: 'samsung-s24-256-gray',
+    label: 'Samsung Galaxy S24 256GB — Marble Gray',
+    make: 'Samsung',
+    model: 'Galaxy S24',
+    color: 'Marble Gray',
+    memory: '256GB',
+    price: '£769.00',
+    supplier: 'Ingram Micro',
+  },
+  {
+    value: 'google-pixel8-128-obsidian',
+    label: 'Google Pixel 8 128GB — Obsidian',
+    make: 'Google',
+    model: 'Pixel 8',
+    color: 'Obsidian',
+    memory: '128GB',
+    price: '£599.00',
+    supplier: 'Tech Data',
+  },
+  {
+    value: 'sim-only',
+    label: 'SIM Only (no handset)',
+    make: '',
+    model: 'SIM Only',
+    color: '',
+    memory: '',
+    price: '£0.00',
+    supplier: '',
+  },
+];
+
+export const TARIFF_OPTIONS = [
+  SELECT_PLACEHOLDER,
+  {
+    value: 'ee-essential-9gb',
+    label: 'EE Essential 9GB — £19.95',
+    code: 'EE-ESS-9GB',
+    price: '£19.95',
+    minutes: 'Unlimited',
+    texts: 'Unlimited',
+    data: '9 GB',
+    duration: '24 Months',
+  },
+  {
+    value: 'ee-essential-30gb',
+    label: 'EE Essential 30GB — £24.95',
+    code: 'EE-ESS-30GB',
+    price: '£24.95',
+    minutes: 'Unlimited',
+    texts: 'Unlimited',
+    data: '30 GB',
+    duration: '24 Months',
+  },
+  {
+    value: 'ee-unlimited-data',
+    label: 'EE Unlimited Data — £34.95',
+    code: 'EE-UNL-DATA',
+    price: '£34.95',
+    minutes: 'Unlimited',
+    texts: 'Unlimited',
+    data: 'Unlimited',
+    duration: '24 Months',
+  },
+  {
+    value: 'vodafone-smart-10gb',
+    label: 'Vodafone Smart 10GB — £21.00',
+    code: 'VF-SMT-10GB',
+    price: '£21.00',
+    minutes: 'Unlimited',
+    texts: 'Unlimited',
+    data: '10 GB',
+    duration: '24 Months',
+  },
+  {
+    value: 'o2-flex-20gb',
+    label: 'O2 Flex 20GB — £23.00',
+    code: 'O2-FLX-20GB',
+    price: '£23.00',
+    minutes: 'Unlimited',
+    texts: 'Unlimited',
+    data: '20 GB',
+    duration: '12 Months',
+  },
+];

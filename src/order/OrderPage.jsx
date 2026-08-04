@@ -12,6 +12,7 @@ import {
   Tag,
   Toast,
 } from '../ds/index.js';
+import { HandsetTariffSection } from './HandsetTariffSection.jsx';
 import { assignedTo } from './orderData.js';
 import { ADDRESS_BLOCKS, ADDRESS_LINES, SECTIONS, SELECT_OPTIONS } from './schema.js';
 import { getIn, useOrderDraft } from './useOrderDraft.js';
@@ -58,6 +59,7 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
 
   const renderers = {
     addresses: () => <Addresses order={order} onField={setField} onCopy={copyAddress} />,
+    handsetTariff: () => <HandsetTariffSection order={order} onField={setField} />,
     specialRequirement: () => (
       <SpecialRequirement
         value={order.specialRequirement}

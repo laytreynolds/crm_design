@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AppShell } from './AppShell.jsx';
 import { OrderPage } from '../order/OrderPage.jsx';
+import { NewOrderPage } from '../order/NewOrderPage.jsx';
 import { OrdersListPage } from '../orders/OrdersListPage.jsx';
 import { ClientPage } from '../client/ClientPage.jsx';
 import { ClientsListPage } from '../clients/ClientsListPage.jsx';
@@ -28,6 +29,7 @@ const NAV_SCREEN = {
 const SCREEN_NAV = {
   'orders-list': 'orders',
   'order-detail': 'orders',
+  'new-order': 'orders',
   'clients-list': 'clients',
   'client-detail': 'clients',
   leaderboard: 'leaderboard',
@@ -68,12 +70,20 @@ export function App() {
 
   return (
     <AppShell active={SCREEN_NAV[screen]} onNavigate={handleNavigate}>
-      {screen === 'orders-list' && <OrdersListPage onOpenOrder={openOrder} />}
+      {screen === 'orders-list' && (
+        <OrdersListPage onOpenOrder={openOrder} onNewOrder={() => setScreen('new-order')} />
+      )}
       {screen === 'order-detail' && (
         <OrderPage
           onBack={() => setScreen('orders-list')}
           focusSection={focusSection}
           onOpenClient={() => openClient(undefined, 'view')}
+        />
+      )}
+      {screen === 'new-order' && (
+        <NewOrderPage
+          onBack={() => setScreen('orders-list')}
+          onCreated={() => setScreen('orders-list')}
         />
       )}
       {screen === 'clients-list' && <ClientsListPage onOpenClient={openClient} />}

@@ -17,16 +17,19 @@ const SELECT_PLACEHOLDER = { value: '', label: 'Select…' };
 
 export const SELECT_OPTIONS = {
   customerType: [
+    SELECT_PLACEHOLDER,
     { value: 'Individual', label: 'Individual' },
     { value: 'Sole Trader', label: 'Sole Trader' },
     { value: 'Partnership', label: 'Partnership' },
     { value: 'Limited Company', label: 'Limited Company' },
   ],
   simCard: [
+    SELECT_PLACEHOLDER,
     { value: 'Yes', label: 'Yes' },
     { value: 'No', label: 'No' },
   ],
   contractTerm: [
+    SELECT_PLACEHOLDER,
     { value: 'No Contract', label: 'No Contract' },
     { value: '1 Month', label: '1 Month' },
     { value: '12 Months', label: '12 Months' },
@@ -47,7 +50,15 @@ export const SELECT_OPTIONS = {
     { value: '3-5 years', label: '3-5 years' },
     { value: '5+ years', label: '5+ years' },
   ],
+  timeAtAddress: [
+    SELECT_PLACEHOLDER,
+    { value: 'Less than 1 year', label: 'Less than 1 year' },
+    { value: '1-3 years', label: '1-3 years' },
+    { value: '3-5 years', label: '3-5 years' },
+    { value: '5+ years', label: '5+ years' },
+  ],
   saleType: [
+    SELECT_PLACEHOLDER,
     { value: 'EE Consumer', label: 'EE Consumer' },
     { value: 'EE Business', label: 'EE Business' },
     { value: 'Vodafone Consumer', label: 'Vodafone Consumer' },
@@ -58,6 +69,12 @@ export const SELECT_OPTIONS = {
     { value: 'Three Business', label: 'Three Business' },
   ],
 };
+
+/** Previous address is only relevant when the applicant hasn't been at their
+ * current address long enough to establish an address history. */
+export function isLessThanThreeYears(timeAtAddress) {
+  return timeAtAddress === 'Less than 1 year' || timeAtAddress === '1-3 years';
+}
 
 export const ADDRESS_BLOCKS = [
   { path: 'billingAddress', label: 'Billing address' },
@@ -70,6 +87,31 @@ export const ADDRESS_LINES = [
   { key: 'line2', placeholder: 'Address line 2' },
   { key: 'city', placeholder: 'Town / city' },
   { key: 'postcode', placeholder: 'Postcode' },
+];
+
+// Fields shown under the handset/tariff catalog dropdowns. Picking a
+// dropdown entry fills these in; they stay editable for one-off tweaks.
+export const HANDSET_FIELDS = [
+  { path: 'handsetSelect.make', label: 'Make' },
+  { path: 'handsetSelect.model', label: 'Model' },
+  { path: 'handsetSelect.color', label: 'Color' },
+  { path: 'handsetSelect.memory', label: 'Memory' },
+  { path: 'handsetSelect.price', label: 'Price' },
+  { path: 'handsetSelect.supplier', label: 'Supplier' },
+];
+
+export const TARIFF_FIELDS = [
+  { path: 'tariffType.code', label: 'Code' },
+  { path: 'tariffType.price', label: 'Price' },
+  { path: 'tariffType.minutes', label: 'Minutes' },
+  { path: 'tariffType.texts', label: 'Texts' },
+  { path: 'tariffType.data', label: 'Data' },
+  { path: 'tariffType.duration', label: 'Duration' },
+];
+
+export const OTHER_SALE_FIELDS = [
+  { path: 'buyout', label: 'Buyout' },
+  { path: 'boltOns', label: 'Bolt ons' },
 ];
 
 export const SECTIONS = [
@@ -136,15 +178,13 @@ export const SECTIONS = [
     title: 'Sale details',
     layout: 'grid3',
     fields: [
-      { path: 'saleDetails.handsetOld', label: 'Handset (old)' },
-      { path: 'saleDetails.tariffOld', label: 'Tariff (old)' },
       { path: 'saleDetails.agentName', label: 'Agent name' },
       { path: 'saleDetails.eligibilityDate', label: 'Eligibility date', type: 'date' },
       { path: 'saleDetails.saleType', label: 'Sale type', type: 'select', options: 'saleType' },
       { path: 'saleDetails.boxValue', label: 'Box value' },
       { path: 'saleDetails.simCard', label: 'Sim card', type: 'select', options: 'simCard' },
       { path: 'saleDetails.quoteId', label: 'Quote ID' },
-      { path: 'saleDetails.speedCap', label: 'Speed cap' },
+      { path: 'saleDetails.speedCap', label: 'Spend cap' },
       {
         path: 'saleDetails.contractTerm',
         label: 'Contract term',
@@ -182,40 +222,7 @@ export const SECTIONS = [
     id: 'handset-tariff',
     nav: 'Handset & tariff',
     title: 'Handset & tariff selection',
-    groups: [
-      {
-        subhead: 'Handset',
-        layout: 'grid3',
-        fields: [
-          { path: 'handsetSelect.make', label: 'Make' },
-          { path: 'handsetSelect.model', label: 'Model' },
-          { path: 'handsetSelect.color', label: 'Color' },
-          { path: 'handsetSelect.memory', label: 'Memory' },
-          { path: 'handsetSelect.price', label: 'Price' },
-          { path: 'handsetSelect.supplier', label: 'Supplier' },
-        ],
-      },
-      {
-        subhead: 'Tariff',
-        layout: 'grid3',
-        fields: [
-          { path: 'tariffType.code', label: 'Code' },
-          { path: 'tariffType.price', label: 'Price' },
-          { path: 'tariffType.minutes', label: 'Minutes' },
-          { path: 'tariffType.texts', label: 'Texts' },
-          { path: 'tariffType.data', label: 'Data' },
-          { path: 'tariffType.duration', label: 'Duration' },
-        ],
-      },
-      {
-        subhead: 'Other',
-        layout: 'grid2',
-        fields: [
-          { path: 'buyout', label: 'Buyout' },
-          { path: 'boltOns', label: 'Bolt ons' },
-        ],
-      },
-    ],
+    render: 'handsetTariff',
   },
   {
     key: 'specialRequirement',

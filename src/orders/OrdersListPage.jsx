@@ -13,7 +13,7 @@ import './orders-list.css';
 const SEARCH_FIELDS = ['businessName', 'agentName', 'mobileNumber', 'saleType', 'postCode'];
 const EMPTY_FILTERS = { assignedUser: '', campaign: '', saleType: '' };
 
-export function OrdersListPage({ onOpenOrder }) {
+export function OrdersListPage({ onOpenOrder, onNewOrder }) {
   const [orders, setOrders] = useState(INITIAL_ORDERS);
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(() => new Set());
@@ -81,7 +81,7 @@ export function OrdersListPage({ onOpenOrder }) {
               variant="primary"
               size="sm"
               icon={<Icon name="add" />}
-              onClick={() => showToast('New order started')}
+              onClick={() => onNewOrder?.()}
             >
               New Order
             </Button>
