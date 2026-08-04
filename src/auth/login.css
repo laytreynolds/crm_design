@@ -1,0 +1,38 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-subtle);
+  padding: var(--space-6);
+}
+
+.login-card {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+.login-logo {
+  width: 120px;
+  height: auto;
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.login-card .cds-field {
+  width: 100%;
+  text-align: left;
+}
+
+.login-card .cds-btn {
+  width: 100%;
+}

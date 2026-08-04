@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from 'react';
 import { Icon } from '../ds/index.js';
+import { useAuth } from '../auth/AuthContext.jsx';
 import './topbar.css';
 
 const CURRENT_USER = {
@@ -8,6 +10,19 @@ const CURRENT_USER = {
 };
 
 export function Topbar() {
+  const { logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [menuOpen]);
+
   return (
     <header className="app-topbar">
       <button type="button" className="app-topbar-collapse" aria-label="Collapse sidebar">
@@ -19,14 +34,54 @@ export function Topbar() {
           <Icon name="notifications" size={20} />
           <span className="app-topbar-badge">5</span>
         </button>
-        <div className="app-topbar-user">
-          <span className="app-topbar-avatar" aria-hidden="true">
-            {CURRENT_USER.initials}
-          </span>
-          <div className="app-topbar-user-text">
-            <span className="app-topbar-name">{CURRENT_USER.name}</span>
-            <span className="app-topbar-email">{CURRENT_USER.email}</span>
-          </div>
+
+        <div className="app-topbar-user-menu" ref={menuRef}>
+          <button
+            type="button"
+            className="app-topbar-user"
+            aria-haspopup="true"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span className="app-topbar-avatar" aria-hidden="true">
+              {CURRENT_USER.initials}
+            </span>
+            <div className="app-topbar-user-text">
+              <span className="app-topbar-name">{CURRENT_USER.name}</span>
+              <span className="app-topbar-email">{CURRENT_USER.email}</span>
+            </div>
+            <Icon
+              name="expand_more"
+              size={18}
+              className={`app-topbar-user-chevron${menuOpen ? ' app-topbar-user-chevron-open' : ''}`}
+            />
+          </button>
+
+          {menuOpen && (
+            <div className="app-topbar-user-dropdown" role="menu">
+              <button
+                type="button"
+                className="app-topbar-user-dropdown-item"
+                role="menuitem"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Icon name="person" size={18} />
+                Profile
+              </button>
+              <button
+                type="button"
+                className="app-topbar-user-dropdown-item"
+                role="menuitem"
+                onClick={() => {
+                  setMenuOpen(false);
+                  logout();
+                }}
+              >
+                <Icon name="logout" size={18} />
+                Sign out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

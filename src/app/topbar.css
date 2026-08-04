@@ -66,10 +66,70 @@
   line-height: 1;
 }
 
+.app-topbar-user-menu {
+  position: relative;
+}
+
 .app-topbar-user {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  background: none;
+  border: none;
+  padding: 4px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+.app-topbar-user:hover {
+  background: var(--surface-subtle);
+}
+
+.app-topbar-user-chevron {
+  color: var(--text-secondary);
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.app-topbar-user-chevron-open {
+  transform: rotate(180deg);
+}
+
+.app-topbar-user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: var(--surface-page);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 10;
+}
+
+.app-topbar-user-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.app-topbar-user-dropdown-item:hover {
+  background: var(--surface-subtle);
 }
 
 .app-topbar-avatar {
