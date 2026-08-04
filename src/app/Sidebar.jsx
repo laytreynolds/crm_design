@@ -6,13 +6,11 @@ export function Sidebar({ active, onNavigate }) {
   const [expanded, setExpanded] = useState(() => new Set());
   const [selectedChild, setSelectedChild] = useState(null);
 
+  // Only one group's children are ever shown at a time — inline under its
+  // item on desktop, as a bottom sheet on mobile (see the >900px override in
+  // sidebar.css). Keeping this exclusive avoids two sheets stacking.
   function toggleExpanded(id) {
-    setExpanded((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+    setExpanded((prev) => (prev.has(id) ? new Set() : new Set([id])));
   }
 
   function handleItemClick(item) {
@@ -23,10 +21,24 @@ export function Sidebar({ active, onNavigate }) {
   function handleChildClick(childId) {
     setSelectedChild(childId);
     onNavigate?.(childId);
+    // On mobile the children list is a sheet covering the screen, so picking
+    // one should dismiss it. Desktop keeps it open for browsing more items.
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      setExpanded(new Set());
+    }
   }
 
   return (
     <aside className="os-sidebar">
+      {expanded.size > 0 && (
+        <button
+          type="button"
+          className="os-sb-backdrop"
+          aria-label="Close menu"
+          onClick={() => setExpanded(new Set())}
+        />
+      )}
+
       <div className="os-sb-logo">
         <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Chadwell Logo" style={{ width: '100%', height: 'auto' }} />
       </div>
@@ -63,6 +75,17 @@ export function Sidebar({ active, onNavigate }) {
 
                   {item.children && isExpanded && (
                     <div className="os-sb-children">
+                      <div className="os-sb-children-header">
+                        <span>{item.label}</span>
+                        <button
+                          type="button"
+                          className="os-sb-children-close"
+                          aria-label="Close menu"
+                          onClick={() => setExpanded(new Set())}
+                        >
+                          <Icon name="close" size={18} />
+                        </button>
+                      </div>
                       {item.children.map((childGroup, i) => (
                         <div className="os-sb-childgroup" key={childGroup.group ?? i}>
                           {childGroup.group && (

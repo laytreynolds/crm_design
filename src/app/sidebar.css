@@ -170,6 +170,20 @@
   border-color: var(--green-500);
 }
 
+/* Mobile sheet chrome — inert on desktop, where children expand inline and
+   need no header, close button, or backdrop. */
+.os-sb-backdrop {
+  display: none;
+}
+
+.os-sb-children-header {
+  display: none;
+}
+
+.os-sb-children-close {
+  display: none;
+}
+
 /* Below the two-column threshold the rail becomes a fixed tab bar pinned to
    the bottom of the viewport (thumb reach beats a top-mounted strip on
    mobile). The brand mark moves into the topbar instead — see topbar.css. */
@@ -245,11 +259,82 @@
   }
 
   .os-sb-chevron {
-    display: none;
+    display: inline-flex;
+    transform: scale(0.65);
+    color: var(--ink-500);
+    margin-top: -2px;
+  }
+
+  .os-sb-chevron.os-sb-chevron-open {
+    transform: scale(0.65) rotate(180deg);
+  }
+
+  /* Children become a bottom sheet: full-width, floating above the tab bar,
+     scrollable for the longer lists (Orders' 19 statuses, Settings' 12
+     pages). A backdrop behind it closes the sheet on outside tap. */
+  .os-sb-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 44;
+    background: rgba(17, 17, 17, 0.4);
+    border: none;
+    padding: 0;
+    cursor: default;
   }
 
   .os-sb-children {
-    display: none;
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 45;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: var(--ink-900);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-4) var(--space-2) calc(var(--space-4) + env(safe-area-inset-bottom));
+  }
+
+  .os-sb-children-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-3) var(--space-3);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-base);
+  }
+
+  .os-sb-children-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--ink-300);
+    cursor: pointer;
+  }
+
+  .os-sb-children-close:hover,
+  .os-sb-children-close:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+  }
+
+  .os-sb-subgroup {
+    margin-left: var(--space-3);
+  }
+
+  .os-sb-subitem {
+    padding: 12px var(--space-3);
+    font-size: var(--text-sm);
   }
 }
 
