@@ -14,10 +14,12 @@ import { useNewOrderDraft } from './useNewOrderDraft.js';
 import { useToast } from './useToast.js';
 import './order-page.css';
 
-// The new-order form covers every order field except the two sections that
-// only make sense once an order exists to be fulfilled.
+// The new-order form covers every order field except the sections that only
+// make sense once an order exists: fulfilment, welcome calls and notes happen
+// afterwards, and finance's credit check history has nothing to show yet.
+const EXCLUDED_NEW_ORDER_SECTIONS = new Set(['fulfilment', 'welcomeCalls', 'notes', 'finance']);
 const NEW_ORDER_SECTIONS = SECTIONS.filter(
-  (section) => section.key !== 'fulfilment' && section.key !== 'notes',
+  (section) => !EXCLUDED_NEW_ORDER_SECTIONS.has(section.key),
 );
 
 export function NewOrderPage({ onBack, onCreated } = {}) {

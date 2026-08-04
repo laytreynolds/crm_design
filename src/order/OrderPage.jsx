@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   Checkbox,
-  Dialog,
   Icon,
   IconButton,
   Input,
@@ -15,7 +14,16 @@ import {
 } from '../ds/index.js';
 import { HandsetTariffSection } from './HandsetTariffSection.jsx';
 import { assignedTo } from './orderData.js';
-import { ADDRESS_BLOCKS, ADDRESS_LINES, SECTIONS, SELECT_OPTIONS } from './schema.js';
+import {
+  ADDRESS_BLOCKS,
+  ADDRESS_LINES,
+  CREDIT_CHECK_OUTCOME_TONE,
+  FINANCE_GROUPS,
+  getWelcomeCallGroupKey,
+  SECTIONS,
+  SELECT_OPTIONS,
+  WELCOME_CALL_GROUPS,
+} from './schema.js';
 import { getIn, useOrderDraft } from './useOrderDraft.js';
 import { useToast } from './useToast.js';
 import './order-page.css';
@@ -24,7 +32,7 @@ const ALL_EXPANDED = Object.fromEntries(SECTIONS.map((s) => [s.key, true]));
 
 // Sections that render as their own isolated page rather than inline in the
 // scroll list — clicking their nav link shows only that section.
-const ISOLATED_SECTIONS = new Set(['finance', 'fulfilment']);
+const ISOLATED_SECTIONS = new Set(['finance', 'fulfilment', 'welcomeCalls']);
 
 // Native date inputs store 'YYYY-MM-DD'; the header badge uses the same
 // DD/MM format as the seed status date.
@@ -33,12 +41,10 @@ function toShortDate(isoDate) {
   return `${day}/${month}`;
 }
 
-export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
-  const { order, setField, addNote, updateNote, removeNote, saveOrder, discardDraft, draftLabel } =
-    useOrderDraft();
+export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) {
+  const { order, setField, addNote, updateNote, removeNote } = useOrderDraft(orderId);
   const { message: toastMsg, show: showToast } = useToast();
   const [expanded, setExpanded] = useState(ALL_EXPANDED);
-  const [discarding, setDiscarding] = useState(false);
   // 'finance' and 'fulfilment' are their own isolated pages rather than
   // sections in the scroll list; null means the normal all-sections overview.
   const [activeSection, setActiveSection] = useState(null);
@@ -81,6 +87,12 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
     ? toShortDate(order.additionalSale.portDate)
     : order.status.date;
 
+  const welcomeCallGroupKey = getWelcomeCallGroupKey(order.saleDetails.saleType);
+  // Sale types outside the welcome-call groups don't need the tab at all.
+  const orderSections = welcomeCallGroupKey
+    ? SECTIONS
+    : SECTIONS.filter((s) => s.key !== 'welcomeCalls');
+
   const renderers = {
     addresses: () => <Addresses order={order} onField={setField} onCopy={copyAddress} />,
     handsetTariff: () => <HandsetTariffSection order={order} onField={setField} />,
@@ -92,11 +104,21 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
       />
     ),
     notes: () => <Notes notes={order.notes} onUpdate={updateNote} onRemove={removeNote} />,
+    finance: () => (
+      <Finance order={order} onField={setField} onCopy={copy} groups={FINANCE_GROUPS} />
+    ),
+    welcomeCalls: () => (
+      <WelcomeCalls
+        order={order}
+        onField={setField}
+        group={welcomeCallGroupKey ? WELCOME_CALL_GROUPS[welcomeCallGroupKey] : null}
+      />
+    ),
   };
 
   const visibleSections = activeSection
-    ? SECTIONS.filter((s) => s.key === activeSection)
-    : SECTIONS.filter((s) => !ISOLATED_SECTIONS.has(s.key));
+    ? orderSections.filter((s) => s.key === activeSection)
+    : orderSections.filter((s) => !ISOLATED_SECTIONS.has(s.key));
 
   return (
     <div className="os-page">
@@ -138,31 +160,6 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
               )}
             </div>
           </div>
-
-          <div className="os-header-actions">
-            <div className="os-header-buttons">
-              <Button variant="secondary" onClick={() => setDiscarding(true)}>
-                Discard
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  saveOrder();
-                  showToast('Order saved');
-                }}
-              >
-                Save order
-              </Button>
-            </div>
-            <div className="os-draft-status" role="status" aria-live="polite">
-              {draftLabel && (
-                <>
-                  <span className="os-draft-dot" />
-                  <span>{draftLabel}</span>
-                </>
-              )}
-            </div>
-          </div>
         </header>
 
         <div className="os-actionbar">
@@ -185,14 +182,6 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
           <Button
             variant="secondary"
             size="sm"
-            icon={<Icon name="edit" />}
-            onClick={() => showToast('Edit mode toggled')}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
             icon={<Icon name="grid_view" />}
             onClick={() => showToast('Connection grid generated')}
           >
@@ -209,7 +198,7 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
         </div>
 
         <nav className="os-navbar" aria-label="Order sections">
-          {SECTIONS.map((section) => (
+          {orderSections.map((section) => (
             <a
               key={section.key}
               className={`os-navlink${activeSection === section.key ? ' os-navlink--active' : ''}`}
@@ -276,32 +265,6 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
       <div className="os-toast-anchor" role="status" aria-live="polite">
         {toastMsg && <Toast tone="success">{toastMsg}</Toast>}
       </div>
-
-      {discarding && (
-        <Dialog
-          title="Discard changes?"
-          onClose={() => setDiscarding(false)}
-          actions={
-            <>
-              <Button variant="ghost" onClick={() => setDiscarding(false)}>
-                Keep editing
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  discardDraft();
-                  setDiscarding(false);
-                  showToast('Changes discarded');
-                }}
-              >
-                Discard
-              </Button>
-            </>
-          }
-        >
-          <p>This drops the saved draft and restores the order as it was last loaded.</p>
-        </Dialog>
-      )}
     </div>
   );
 }
@@ -435,6 +398,90 @@ function SpecialRequirement({ value, onChange, onCopy }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
+    </div>
+  );
+}
+
+function Finance({ order, groups, onField, onCopy }) {
+  return (
+    <div>
+      {groups.map((group, i) => (
+        <div key={group.subhead ?? i}>
+          {group.subhead && <div className="os-subhead">{group.subhead}</div>}
+          <div className={group.layout === 'grid2' ? 'os-grid2' : 'os-grid3'}>
+            {group.fields.map((field) => (
+              <Field
+                key={field.path}
+                field={field}
+                value={getIn(order, field.path)}
+                onChange={(v) => onField(field.path, v)}
+                onCopy={onCopy}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+      <div className="os-subhead">Credit check history</div>
+      <CreditCheckHistory checks={order.creditChecks} />
+    </div>
+  );
+}
+
+function WelcomeCalls({ order, group, onField }) {
+  if (!group) return null;
+
+  return (
+    <div>
+      <div className="os-subhead">{group.title}</div>
+      <div className="os-grid3">
+        {group.fields.map((field) => (
+          <Field
+            key={field.path}
+            field={field}
+            value={getIn(order, field.path)}
+            onChange={(v) => onField(field.path, v)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CreditCheckHistory({ checks }) {
+  if (!checks || checks.length === 0) {
+    return <p className="os-empty">No credit checks recorded for this order.</p>;
+  }
+
+  return (
+    <div className="os-table-wrap">
+      <table className="os-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Bureau</th>
+            <th>Check type</th>
+            <th>Outcome</th>
+            <th>Score</th>
+            <th>Reference</th>
+          </tr>
+        </thead>
+        <tbody>
+          {checks.map((check) => (
+            <tr key={check.id}>
+              <td>{check.date}</td>
+              <td>{check.bureau}</td>
+              <td>{check.checkType}</td>
+              <td>
+                <Badge tone={CREDIT_CHECK_OUTCOME_TONE[check.outcome] ?? 'neutral'}>
+                  {check.outcome}
+                </Badge>
+              </td>
+              <td>{check.score}</td>
+              <td>{check.reference}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

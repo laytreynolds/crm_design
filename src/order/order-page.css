@@ -366,6 +366,49 @@ body {
   color: var(--text-secondary);
 }
 
+/* Credit check history ------------------------------------------------------ */
+
+.os-table-wrap {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
+.os-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.os-table th {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-secondary);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  background: var(--surface-subtle);
+  border-bottom: 1px solid var(--border-default);
+  white-space: nowrap;
+}
+
+.os-table td {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.os-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.os-table tbody tr:hover {
+  background: var(--surface-subtle);
+}
+
 /* Toast ------------------------------------------------------------------- */
 
 .os-toast-anchor {

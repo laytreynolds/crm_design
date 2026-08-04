@@ -60,12 +60,13 @@ export function App() {
   const stored = readStoredScreen();
   const [screen, setScreen] = useState(stored?.screen ?? 'dashboard');
   const [focusSection, setFocusSection] = useState(null);
+  const [orderId, setOrderId] = useState(stored?.orderId ?? null);
   const [clientMode, setClientMode] = useState('view');
   const [settingId, setSettingId] = useState(stored?.settingId ?? null);
 
   useEffect(() => {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ screen, settingId }));
-  }, [screen, settingId]);
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ screen, settingId, orderId }));
+  }, [screen, settingId, orderId]);
 
   function handleNavigate(navId) {
     if (navId in SETTINGS_CONFIG) {
@@ -85,9 +86,8 @@ export function App() {
     if (target) setScreen(target);
   }
 
-  // The demo only has one full order record, so every row's "View"/"Edit"/
-  // "Add Note" opens the same detail page rather than per-row data.
-  function openOrder(_orderId, section) {
+  function openOrder(id, section) {
+    setOrderId(id);
     setFocusSection(section ?? null);
     setScreen('order-detail');
   }
@@ -106,7 +106,9 @@ export function App() {
       )}
       {screen === 'order-detail' && (
         <OrderPage
+          key={orderId}
           onBack={() => setScreen('orders-list')}
+          orderId={orderId}
           focusSection={focusSection}
           onOpenClient={() => openClient(undefined, 'view')}
         />

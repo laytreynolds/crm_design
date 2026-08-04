@@ -25,6 +25,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '02:14 PM',
     eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/1',
   },
   {
     id: 2,
@@ -40,6 +41,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '02:07 PM',
     eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/2',
   },
   {
     id: 3,
@@ -55,6 +57,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '02:02 PM',
     eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/3',
   },
   {
     id: 4,
@@ -70,6 +73,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '01:48 PM',
     eligibilityDate: '',
+    tektonLink: 'https://tekton.example.com/orders/4',
   },
   {
     id: 5,
@@ -85,6 +89,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '01:15 PM',
     eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/5',
   },
   {
     id: 6,
@@ -100,6 +105,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '12:51 PM',
     eligibilityDate: '2026-08-01',
+    tektonLink: 'https://tekton.example.com/orders/6',
   },
   {
     id: 7,
@@ -115,6 +121,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '12:51 PM',
     eligibilityDate: '2026-08-01',
+    tektonLink: 'https://tekton.example.com/orders/7',
   },
   {
     id: 8,
@@ -130,6 +137,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '12:33 PM',
     eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/8',
   },
   {
     id: 9,
@@ -145,6 +153,7 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '12:10 PM',
     eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/9',
   },
   {
     id: 10,
@@ -160,6 +169,39 @@ const HAND_AUTHORED_ORDERS = [
     placedDate: '2026-08-03',
     placedTime: '11:52 AM',
     eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/10',
+  },
+  {
+    id: 11,
+    saleType: 'Plan Upgrade',
+    agentName: 'Luke',
+    campaign: 'Plan Network Sales',
+    mobileNumber: '07712345678',
+    businessName: 'Sam Pardoe',
+    postCode: 'BN14 8QW',
+    status: 'To Process',
+    statusTone: 'process',
+    boxValue: '£ 152.4',
+    placedDate: '2026-08-03',
+    placedTime: '11:20 AM',
+    eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/11',
+  },
+  {
+    id: 12,
+    saleType: 'Plan New Connection',
+    agentName: 'marcoadaggio',
+    campaign: 'Plan Network Sales',
+    mobileNumber: 'New number',
+    businessName: 'Freya Micklewright',
+    postCode: 'LE11 3NX',
+    status: 'Awaiting Contact',
+    statusTone: 'awaiting',
+    boxValue: '£ 189',
+    placedDate: '2026-08-03',
+    placedTime: '10:55 AM',
+    eligibilityDate: '2026-08-03',
+    tektonLink: 'https://tekton.example.com/orders/12',
   },
 ];
 
@@ -180,6 +222,8 @@ const SALE_LINES = [
   { saleType: 'O2 Consumer', campaign: 'O2 Upgrade Drive' },
   { saleType: 'O2 Upgrade', campaign: 'O2 Upgrade Drive' },
   { saleType: 'EE Consumer', campaign: 'EE Essential Push' },
+  { saleType: 'Plan Upgrade', campaign: 'Plan Network Sales' },
+  { saleType: 'Plan New Connection', campaign: 'Plan Network Sales' },
 ];
 
 // Weighted so most orders move forward through the pipeline and only a
@@ -303,6 +347,7 @@ function generateHistoricalOrders(referenceDateStr, daysBack, skipDates, startId
         placedDate: dateStr,
         placedTime: randomTime(),
         eligibilityDate: status === 'To Process' && rand() < 0.3 ? '' : dateStr,
+        tektonLink: `https://tekton.example.com/orders/${nextId}`,
       });
       nextId += 1;
     }
@@ -312,7 +357,7 @@ function generateHistoricalOrders(referenceDateStr, daysBack, skipDates, startId
 
 // 8 weeks of history up to and including "today", skipping the date already
 // covered by the hand-authored rows above.
-const GENERATED_ORDERS = generateHistoricalOrders('2026-08-04', 56, ['2026-08-03'], 11);
+const GENERATED_ORDERS = generateHistoricalOrders('2026-08-04', 56, ['2026-08-03'], 13);
 
 export const INITIAL_ORDERS = [...HAND_AUTHORED_ORDERS, ...GENERATED_ORDERS];
 
@@ -329,5 +374,6 @@ export const CAMPAIGN_OPTIONS = [
   'Three Q3 Consumer Switch',
   'EE Essential Push',
   'O2 Upgrade Drive',
+  'Plan Network Sales',
   'Summer Retention Offer',
 ];

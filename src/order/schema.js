@@ -61,13 +61,35 @@ export const SELECT_OPTIONS = {
   saleType: [
     SELECT_PLACEHOLDER,
     { value: 'EE Consumer', label: 'EE Consumer' },
-    { value: 'EE Business', label: 'EE Business' },
-    { value: 'Vodafone Consumer', label: 'Vodafone Consumer' },
-    { value: 'Vodafone Business', label: 'Vodafone Business' },
     { value: 'O2 Consumer', label: 'O2 Consumer' },
-    { value: 'O2 Business', label: 'O2 Business' },
+    { value: 'Vodafone New Connection', label: 'Vodafone New Connection' },
     { value: 'Three Consumer', label: 'Three Consumer' },
-    { value: 'Three Business', label: 'Three Business' },
+    { value: 'Device Only', label: 'Device Only' },
+    { value: 'Exchange - EE to EE Early Upgrade', label: 'Exchange - EE to EE Early Upgrade' },
+    {
+      value: 'Exchange - Orange/T-Mobile to EE Early Migration',
+      label: 'Exchange - Orange/T-Mobile to EE Early Migration',
+    },
+    { value: 'Vodafone Upgrade', label: 'Vodafone Upgrade' },
+    { value: 'Exchange - EE to EE Upgrade', label: 'Exchange - EE to EE Upgrade' },
+    {
+      value: 'Exchange - Orange/T-Mobile to EE Migration',
+      label: 'Exchange - Orange/T-Mobile to EE Migration',
+    },
+    { value: 'O2 to Plan', label: 'O2 to Plan' },
+    { value: 'Orange/T-Mobile to EE Early Migration', label: 'Orange/T-Mobile to EE Early Migration' },
+    { value: 'Orange/T-Mobile to EE Migration', label: 'Orange/T-Mobile to EE Migration' },
+    { value: 'Hosted', label: 'Hosted' },
+    { value: 'Three New Connection', label: 'Three New Connection' },
+    { value: 'Plan Upgrade', label: 'Plan Upgrade' },
+    { value: 'Plan New Connection', label: 'Plan New Connection' },
+    { value: 'O2 Upgrade', label: 'O2 Upgrade' },
+    { value: 'O2 New Connection (SIM Only)', label: 'O2 New Connection (SIM Only)' },
+    { value: 'O2 New Connection', label: 'O2 New Connection' },
+    { value: 'EE to EE Upgrade', label: 'EE to EE Upgrade' },
+    { value: 'EE to EE Early Upgrade', label: 'EE to EE Early Upgrade' },
+    { value: 'EE New Connection', label: 'EE New Connection' },
+    { value: 'EE Consumer to Business Migration', label: 'EE Consumer to Business Migration' },
   ],
   yesNa: [
     SELECT_PLACEHOLDER,
@@ -124,6 +146,139 @@ export const OTHER_SALE_FIELDS = [
   { path: 'buyout', label: 'Buyout' },
   { path: 'boltOns', label: 'Bolt ons' },
 ];
+
+// Reused as both the field data for the "Finance" section and, via the
+// bank-details fields, the standalone "Bank details" section above — kept
+// in one place so the two don't drift.
+export const FINANCE_GROUPS = [
+  {
+    subhead: 'Bank details',
+    layout: 'grid2',
+    fields: [
+      { path: 'bankDetails.accountName', label: 'Account name', placeholder: 'e.g. J Smith' },
+      {
+        path: 'bankDetails.accountNumber',
+        label: 'Account number',
+        placeholder: 'e.g. 12345678',
+      },
+      { path: 'bankDetails.sortCode', label: 'Sort code', placeholder: 'e.g. 12-34-56' },
+      {
+        path: 'bankDetails.directDebitDueDate',
+        label: 'Direct debit due date',
+        type: 'date',
+      },
+    ],
+  },
+  {
+    subhead: 'Payment status',
+    layout: 'grid2',
+    fields: [
+      {
+        path: 'bankDetails.recurringCardPayment',
+        label: 'Recurring card payment',
+        type: 'checkbox',
+      },
+      {
+        path: 'bankDetails.inCreditControl',
+        label: 'In credit control',
+        type: 'checkbox',
+      },
+    ],
+  },
+];
+
+// Welcome call fields, grouped by the sale type they apply to. Each order
+// only ever matches one group (see getWelcomeCallGroupKey), so field paths
+// can safely be reused across groups that ask the same underlying question.
+export const WELCOME_CALL_GROUPS = {
+  threeC2b: {
+    title: 'Three New Connection C2B',
+    fields: [
+      {
+        path: 'welcomeCalls.completeOrNotRequired',
+        label: 'Complete / not required',
+        type: 'select',
+        options: 'yesNa',
+      },
+      { path: 'welcomeCalls.customerSpokenTo', label: 'Customer spoken to', type: 'checkbox' },
+      { path: 'welcomeCalls.portSet', label: 'Port set', type: 'select', options: 'yesNa' },
+    ],
+  },
+  o2EeConsumer: {
+    title: 'O2 and EE Consumer',
+    fields: [
+      {
+        path: 'welcomeCalls.spendCapAppliedTekton',
+        label: 'Spend cap applied Tekton',
+        type: 'checkbox',
+      },
+      { path: 'welcomeCalls.spendCapAppliedV4', label: 'Spend cap applied V4', type: 'checkbox' },
+      {
+        path: 'welcomeCalls.notificationsAppliedVos',
+        label: 'Notifications applied VOS',
+        type: 'checkbox',
+      },
+      { path: 'welcomeCalls.customerPortalSet', label: 'Customer portal set', type: 'checkbox' },
+      { path: 'welcomeCalls.billingExplained', label: 'Billing explained', type: 'checkbox' },
+      { path: 'welcomeCalls.dailyTraveller', label: 'Daily traveller', type: 'checkbox' },
+    ],
+  },
+  planUpgrade: {
+    title: 'Plan Upgrade',
+    fields: [
+      { path: 'welcomeCalls.spendCapDuplicated', label: 'Spend cap duplicated', type: 'checkbox' },
+      { path: 'welcomeCalls.dailyTravellerDuplicated', label: 'Daily Traveller Duplicated', type: 'checkbox' },
+      { path: 'welcomeCalls.thirdPartyGranted', label: 'Third party granted', type: 'checkbox' },
+      { path: 'welcomeCalls.notificationsSet', label: 'Notifications set', type: 'checkbox' },
+      {
+        path: 'welcomeCalls.previousBoltOnsApplied',
+        label: 'Previous bolt-ons applied',
+        type: 'checkbox',
+      },
+    ],
+  },
+  planNewConnection: {
+    title: 'Plan New Connection',
+    fields: [
+      { path: 'welcomeCalls.thirdParty', label: 'Third party', type: 'checkbox' },
+      {
+        path: 'welcomeCalls.spendCapAppliedTekton',
+        label: 'Spend cap applied Tekton',
+        type: 'checkbox',
+      },
+      { path: 'welcomeCalls.spendCapAppliedV4', label: 'Spend cap applied V4', type: 'checkbox' },
+      {
+        path: 'welcomeCalls.notificationsAppliedVos',
+        label: 'Notifications applied VOS',
+        type: 'checkbox',
+      },
+      { path: 'welcomeCalls.customerPortalSet', label: 'Customer portal set', type: 'checkbox' },
+      { path: 'welcomeCalls.billingExplained', label: 'Billing explained', type: 'checkbox' },
+      { path: 'welcomeCalls.dailyTraveller', label: 'Daily traveller', type: 'checkbox' },
+    ],
+  },
+};
+
+// Sale types not listed here don't require a welcome call, so the tab is
+// hidden entirely for them.
+const WELCOME_CALL_SALE_TYPES = {
+  'Three New Connection': 'threeC2b',
+  'O2 Consumer': 'o2EeConsumer',
+  'EE Consumer': 'o2EeConsumer',
+  'Plan Upgrade': 'planUpgrade',
+  'Plan New Connection': 'planNewConnection',
+};
+
+export function getWelcomeCallGroupKey(saleType) {
+  return WELCOME_CALL_SALE_TYPES[saleType] ?? null;
+}
+
+// Outcome -> Badge tone for the credit check history table.
+export const CREDIT_CHECK_OUTCOME_TONE = {
+  Pass: 'success',
+  Refer: 'warning',
+  Fail: 'danger',
+};
 
 export const SECTIONS = [
   {
@@ -278,42 +433,8 @@ export const SECTIONS = [
     id: 'finance',
     nav: 'Finance',
     title: 'Finance',
-    groups: [
-      {
-        subhead: 'Bank details',
-        layout: 'grid2',
-        fields: [
-          { path: 'bankDetails.accountName', label: 'Account name', placeholder: 'e.g. J Smith' },
-          {
-            path: 'bankDetails.accountNumber',
-            label: 'Account number',
-            placeholder: 'e.g. 12345678',
-          },
-          { path: 'bankDetails.sortCode', label: 'Sort code', placeholder: 'e.g. 12-34-56' },
-          {
-            path: 'bankDetails.directDebitDueDate',
-            label: 'Direct debit due date',
-            type: 'date',
-          },
-        ],
-      },
-      {
-        subhead: 'Payment status',
-        layout: 'grid2',
-        fields: [
-          {
-            path: 'bankDetails.recurringCardPayment',
-            label: 'Recurring card payment',
-            type: 'checkbox',
-          },
-          {
-            path: 'bankDetails.inCreditControl',
-            label: 'In credit control',
-            type: 'checkbox',
-          },
-        ],
-      },
-    ],
+    render: 'finance',
+    groups: FINANCE_GROUPS,
   },
   {
     key: 'fulfilment',
@@ -353,6 +474,13 @@ export const SECTIONS = [
         type: 'checkbox',
       },
     ],
+  },
+  {
+    key: 'welcomeCalls',
+    id: 'welcome-calls',
+    nav: 'Welcome calls',
+    title: 'Welcome calls',
+    render: 'welcomeCalls',
   },
   {
     key: 'notes',

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { initialOrder } from './orderData.js';
+import { getOrderDetail } from './orderData.js';
 
-const DRAFT_KEY = 'chadwell-order-draft-v1';
+const DRAFT_KEY_PREFIX = 'chadwell-order-draft-v1';
 const AUTOSAVE_DELAY = 800;
 
 /** Read a dot-path out of the order object. */
@@ -14,6 +14,22 @@ function setIn(obj, path, value) {
   const [head, ...rest] = path.split('.');
   if (rest.length === 0) return { ...obj, [head]: value };
   return { ...obj, [head]: setIn(obj[head], rest.join('.'), value) };
+}
+
+/** Deep-merges a saved draft over the current order so fields added to the
+ * schema after the draft was saved (e.g. a new column) aren't wiped out by
+ * a stale nested object like `account` or `bankDetails`. */
+function deepMerge(base, patch) {
+  if (typeof patch !== 'object' || patch === null || Array.isArray(patch)) return patch;
+  const result = { ...base };
+  for (const key of Object.keys(patch)) {
+    const baseValue = base?.[key];
+    const isPlainObject = (v) => typeof v === 'object' && v !== null && !Array.isArray(v);
+    result[key] = isPlainObject(baseValue) && isPlainObject(patch[key])
+      ? deepMerge(baseValue, patch[key])
+      : patch[key];
+  }
+  return result;
 }
 
 function stamp(now) {
@@ -31,8 +47,9 @@ function stamp(now) {
  * localStorage until the order is explicitly saved or discarded, so a
  * reload mid-call doesn't lose what the agent typed.
  */
-export function useOrderDraft() {
-  const [order, setOrder] = useState(initialOrder);
+export function useOrderDraft(orderId) {
+  const draftKey = `${DRAFT_KEY_PREFIX}:${orderId ?? 'default'}`;
+  const [order, setOrder] = useState(() => getOrderDetail(orderId));
   const [draftStatus, setDraftStatus] = useState('idle'); // 'idle' | 'saving' | 'saved'
   const [lastSavedAt, setLastSavedAt] = useState(null);
 
@@ -42,11 +59,13 @@ export function useOrderDraft() {
     latestOrder.current = order;
   });
 
-  // Restore any draft left over from a previous visit.
+  // Restore any draft left over from a previous visit to this order. The
+  // caller remounts this hook (via a `key`) when switching orders, so this
+  // only needs to run once per order on mount.
   useEffect(() => {
     let draft;
     try {
-      const raw = localStorage.getItem(DRAFT_KEY);
+      const raw = localStorage.getItem(draftKey);
       draft = raw ? JSON.parse(raw) : null;
     } catch {
       draft = null;
@@ -54,9 +73,10 @@ export function useOrderDraft() {
     if (!draft) return;
 
     const { __savedAt, ...fields } = draft;
-    setOrder((prev) => ({ ...prev, ...fields }));
+    setOrder((prev) => deepMerge(prev, fields));
     setDraftStatus('saved');
     setLastSavedAt(__savedAt ? new Date(__savedAt) : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => () => clearTimeout(saveTimer.current), []);
@@ -68,7 +88,7 @@ export function useOrderDraft() {
       const savedAt = Date.now();
       try {
         localStorage.setItem(
-          DRAFT_KEY,
+          draftKey,
           JSON.stringify({ ...latestOrder.current, __savedAt: savedAt }),
         );
       } catch {
@@ -77,7 +97,7 @@ export function useOrderDraft() {
       setDraftStatus('saved');
       setLastSavedAt(new Date(savedAt));
     }, AUTOSAVE_DELAY);
-  }, []);
+  }, [draftKey]);
 
   const setField = useCallback(
     (path, value) => {
@@ -118,13 +138,13 @@ export function useOrderDraft() {
   const clearDraft = useCallback(() => {
     clearTimeout(saveTimer.current);
     try {
-      localStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem(draftKey);
     } catch {
       // ignore
     }
     setDraftStatus('idle');
     setLastSavedAt(null);
-  }, []);
+  }, [draftKey]);
 
   /** Commit the order: the draft has served its purpose and is dropped. */
   const saveOrder = useCallback(() => clearDraft(), [clearDraft]);
@@ -132,8 +152,8 @@ export function useOrderDraft() {
   /** Throw the draft away and go back to the order as it was loaded. */
   const discardDraft = useCallback(() => {
     clearDraft();
-    setOrder(initialOrder);
-  }, [clearDraft]);
+    setOrder(getOrderDetail(orderId));
+  }, [clearDraft, orderId]);
 
   let draftLabel = '';
   if (draftStatus === 'saving') {

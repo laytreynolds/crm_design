@@ -236,6 +236,7 @@ export function OrdersListPage({ onOpenOrder, onNewOrder }) {
                 <th>Box Value</th>
                 <th>Placed Date</th>
                 <th>Eligibility Date</th>
+                <th>Tekton</th>
               </tr>
             </thead>
             <tbody>
@@ -289,11 +290,26 @@ export function OrdersListPage({ onOpenOrder, onNewOrder }) {
                     {order.placedDate} | {order.placedTime}
                   </td>
                   <td>{order.eligibilityDate || '-'}</td>
+                  <td>
+                    {order.tektonLink ? (
+                      <a
+                        href={order.tektonLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ol-tekton-link"
+                        aria-label={`Open Tekton record for ${order.businessName}`}
+                      >
+                        <Icon name="link" size={16} />
+                      </a>
+                    ) : (
+                      '-'
+                    )}
+                  </td>
                 </tr>
               ))}
               {visible.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="ol-empty">
+                  <td colSpan={10} className="ol-empty">
                     No orders match &ldquo;{query}&rdquo;.
                   </td>
                 </tr>

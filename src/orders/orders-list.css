@@ -273,6 +273,18 @@
   text-decoration: underline;
 }
 
+.ol-tekton-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.ol-tekton-link:hover,
+.ol-tekton-link:focus-visible {
+  color: var(--text-link-hover);
+}
+
 .ol-cell-truncate {
   max-width: 150px;
   overflow: hidden;
