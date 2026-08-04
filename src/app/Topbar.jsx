@@ -34,11 +34,6 @@ export function Topbar() {
       </div>
 
       <div className="app-topbar-right">
-        <button type="button" className="app-topbar-icon-btn" aria-label="Notifications">
-          <Icon name="notifications" size={20} />
-          <span className="app-topbar-badge">5</span>
-        </button>
-
         <div className="app-topbar-user-menu" ref={menuRef}>
           <button
             type="button"

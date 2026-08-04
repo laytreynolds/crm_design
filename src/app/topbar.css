@@ -40,42 +40,6 @@
   gap: var(--space-5);
 }
 
-.app-topbar-icon-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  padding: 6px;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-}
-
-.app-topbar-icon-btn:hover {
-  background: var(--surface-subtle);
-  color: var(--text-primary);
-}
-
-.app-topbar-badge {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  border-radius: var(--radius-pill);
-  background: var(--state-danger);
-  color: var(--white);
-  font-size: 10px;
-  font-weight: var(--weight-bold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
 .app-topbar-user-menu {
   position: relative;
 }
