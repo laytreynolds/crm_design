@@ -33,7 +33,7 @@ export const initialClient = {
       saleType: 'EE Consumer',
       status: 'Pending',
       statusTone: 'awaiting',
-      boxValue: '£245.14',
+      boxValue: 245.14,
       placedDate: '30-07-2026',
     },
     {
@@ -41,7 +41,7 @@ export const initialClient = {
       saleType: 'Vodafone Consumer',
       status: 'Completed',
       statusTone: 'completed',
-      boxValue: '£189.00',
+      boxValue: 189.0,
       placedDate: '14-02-2026',
     },
   ],

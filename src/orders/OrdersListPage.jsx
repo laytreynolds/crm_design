@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Breadcrumb } from '../app/Breadcrumb.jsx';
+import { formatGBP } from '../dashboard/format.js';
 import { Button, Dialog, Icon, IconButton, Toast } from '../ds/index.js';
 import { useToast } from '../order/useToast.js';
 import {
@@ -285,7 +286,7 @@ export function OrdersListPage({ onOpenOrder, onNewOrder }) {
                       {order.status}
                     </span>
                   </td>
-                  <td>{order.boxValue}</td>
+                  <td>{formatGBP(order.boxValue)}</td>
                   <td className="ol-cell-truncate">
                     {order.placedDate} | {order.placedTime}
                   </td>

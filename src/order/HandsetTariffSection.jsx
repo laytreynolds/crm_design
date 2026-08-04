@@ -37,6 +37,8 @@ export function HandsetTariffSection({ order, onField }) {
           <Input
             key={field.path}
             label={field.label}
+            type={field.type}
+            step={field.step}
             value={getIn(order, field.path)}
             onChange={(e) => onField(field.path, e.target.value)}
           />
@@ -60,6 +62,8 @@ export function HandsetTariffSection({ order, onField }) {
           <Input
             key={field.path}
             label={field.label}
+            type={field.type}
+            step={field.step}
             value={getIn(order, field.path)}
             onChange={(e) => onField(field.path, e.target.value)}
           />
@@ -72,6 +76,8 @@ export function HandsetTariffSection({ order, onField }) {
           <Input
             key={field.path}
             label={field.label}
+            type={field.type}
+            step={field.step}
             value={getIn(order, field.path)}
             onChange={(e) => onField(field.path, e.target.value)}
           />

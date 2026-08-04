@@ -4,6 +4,7 @@ export function Input({
   error,
   placeholder,
   type = 'text',
+  step,
   value,
   onChange,
   disabled,
@@ -14,6 +15,7 @@ export function Input({
       <input
         className={`cds-input${error ? ' cds-input--error' : ''}`}
         type={type}
+        step={step}
         placeholder={placeholder}
         value={value}
         onChange={onChange}

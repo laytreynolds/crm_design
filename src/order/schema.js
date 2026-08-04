@@ -6,8 +6,9 @@
  * Field shape:
  *   path        dot-path into the order object (also the React key)
  *   label       visible label, and the noun used in the "… copied" toast
- *   type        'text' (default) | 'date' | 'email' | 'select' | 'checkbox'
+ *   type        'text' (default) | 'date' | 'email' | 'number' | 'select' | 'checkbox'
  *   options     key into SELECT_OPTIONS, required when type is 'select'
+ *   step        HTML input step, e.g. '0.01' for money fields typed 'number'
  *   hint        helper text under the control
  *   placeholder placeholder text
  *   copy        renders a copy-to-clipboard button beside the control
@@ -129,13 +130,13 @@ export const HANDSET_FIELDS = [
   { path: 'handsetSelect.model', label: 'Model' },
   { path: 'handsetSelect.color', label: 'Color' },
   { path: 'handsetSelect.memory', label: 'Memory' },
-  { path: 'handsetSelect.price', label: 'Price' },
+  { path: 'handsetSelect.price', label: 'Price', type: 'number', step: '0.01' },
   { path: 'handsetSelect.supplier', label: 'Supplier' },
 ];
 
 export const TARIFF_FIELDS = [
   { path: 'tariffType.code', label: 'Code' },
-  { path: 'tariffType.price', label: 'Price' },
+  { path: 'tariffType.price', label: 'Price', type: 'number', step: '0.01' },
   { path: 'tariffType.minutes', label: 'Minutes' },
   { path: 'tariffType.texts', label: 'Texts' },
   { path: 'tariffType.data', label: 'Data' },
@@ -143,8 +144,8 @@ export const TARIFF_FIELDS = [
 ];
 
 export const OTHER_SALE_FIELDS = [
-  { path: 'buyout', label: 'Buyout' },
-  { path: 'boltOns', label: 'Bolt ons' },
+  { path: 'buyout', label: 'Buyout', type: 'number', step: '0.01' },
+  { path: 'boltOns', label: 'Bolt ons', type: 'number', step: '0.01' },
 ];
 
 // Reused as both the field data for the "Finance" section and, via the
@@ -353,10 +354,10 @@ export const SECTIONS = [
         type: 'select',
         options: 'leadSource',
       },
-      { path: 'saleDetails.boxValue', label: 'Box value' },
+      { path: 'saleDetails.boxValue', label: 'Box value', type: 'number', step: '0.01' },
       { path: 'saleDetails.simCard', label: 'Sim card', type: 'select', options: 'simCard' },
       { path: 'saleDetails.quoteId', label: 'Quote ID' },
-      { path: 'saleDetails.spendCap', label: 'Spend cap' },
+      { path: 'saleDetails.spendCap', label: 'Spend cap', type: 'number', step: '0.01' },
       {
         path: 'saleDetails.contractTerm',
         label: 'Contract term',
@@ -373,8 +374,13 @@ export const SECTIONS = [
     title: 'Additional sale details',
     layout: 'grid3',
     fields: [
-      { path: 'additionalSale.cashback', label: 'Cashback' },
-      { path: 'additionalSale.additionalFunding', label: 'Additional funding' },
+      { path: 'additionalSale.cashback', label: 'Cashback', type: 'number', step: '0.01' },
+      {
+        path: 'additionalSale.additionalFunding',
+        label: 'Additional funding',
+        type: 'number',
+        step: '0.01',
+      },
       { path: 'additionalSale.pacCode', label: 'PAC code' },
       { path: 'additionalSale.portingMobile', label: 'Porting mobile' },
       { path: 'additionalSale.networkAccountNumber', label: 'Network account number' },

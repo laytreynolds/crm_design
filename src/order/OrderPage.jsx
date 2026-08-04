@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Breadcrumb } from '../app/Breadcrumb.jsx';
+import { formatGBP } from '../dashboard/format.js';
 import {
   Badge,
   Button,
@@ -139,7 +140,10 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
               <Badge tone="warning">Pending · {statusDate}</Badge>
               <Tag>{order.saleDetails.saleType}</Tag>
               <span>
-                Box value <strong>{order.saleDetails.boxValue}</strong>
+                Box value{' '}
+                <strong>
+                  {order.saleDetails.boxValue === '' ? '—' : formatGBP(order.saleDetails.boxValue)}
+                </strong>
               </span>
               {onOpenClient && (
                 <button type="button" className="os-client-link" onClick={onOpenClient}>
@@ -330,6 +334,7 @@ function Field({ field, value, onChange, onCopy }) {
         hint={field.hint}
         placeholder={field.placeholder}
         type={field.type ?? 'text'}
+        step={field.step}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />

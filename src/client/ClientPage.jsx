@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { Breadcrumb } from '../app/Breadcrumb.jsx';
+import { formatGBP } from '../dashboard/format.js';
 import { Badge, Button, Card, Icon, IconButton, Input, Select, Tag, Toast } from '../ds/index.js';
 import { useToast } from '../order/useToast.js';
 import { initialClient } from './clientData.js';
@@ -292,7 +293,7 @@ function Orders({ orders, onOpenOrder }) {
           <span>
             <span className={`cp-status cp-status--${order.statusTone}`}>{order.status}</span>
           </span>
-          <span>{order.boxValue}</span>
+          <span>{formatGBP(order.boxValue)}</span>
           <span>{order.placedDate}</span>
           <span className="cp-orders-actions">
             <button type="button" onClick={() => onOpenOrder?.(order.id)}>

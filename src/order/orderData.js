@@ -1,3 +1,4 @@
+import { formatGBP } from '../dashboard/format.js';
 import { AGENT_DISPLAY_NAMES, INITIAL_ORDERS } from '../orders/ordersListData.js';
 
 /**
@@ -37,7 +38,7 @@ export const initialOrder = {
     eligibilityDate: '2026-07-29',
     saleType: 'EE Consumer',
     leadSource: '',
-    boxValue: '£245.14',
+    boxValue: 245.14,
     simCard: 'Yes',
     quoteId: '',
     spendCap: '',
@@ -402,10 +403,10 @@ function buildOrderFromRow(row) {
       data: pick(DATA_ALLOWANCES),
       duration: '',
     },
-    buyout: '£0.00',
+    buyout: 0,
     boltOns: '',
     specialRequirement:
-      `Consumer Plan Quote ID: ${accountNumber} *** ${fullName} *** Consumer Plan ${network} New Connection with Porting MPN: ${mobile} *** PAC Code: ${pacCode || 'N/A'} *** ${network} SIM: ${simNumber} *** ${network} Essential Unlimited @£${oldPrice} including Vat *** Handset Required: N/A - SIMO *** Monthly Line Rental: £${oldPrice} inc Vat *** Buyout: £0.00 *** Box Value: ${row.boxValue} ***`,
+      `Consumer Plan Quote ID: ${accountNumber} *** ${fullName} *** Consumer Plan ${network} New Connection with Porting MPN: ${mobile} *** PAC Code: ${pacCode || 'N/A'} *** ${network} SIM: ${simNumber} *** ${network} Essential Unlimited @£${oldPrice} including Vat *** Handset Required: N/A - SIMO *** Monthly Line Rental: £${oldPrice} inc Vat *** Buyout: ${formatGBP(0)} *** Box Value: ${formatGBP(row.boxValue)} ***`,
     bankDetails: {
       accountName: '',
       accountNumber: '',

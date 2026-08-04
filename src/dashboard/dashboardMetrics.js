@@ -3,9 +3,7 @@ import { AGENT_DISPLAY_NAMES } from '../orders/ordersListData.js';
 const MS_PER_DAY = 86400000;
 
 export function parseBoxValue(value) {
-  if (!value) return 0;
-  const n = parseFloat(String(value).replace(/[£,\s]/g, ''));
-  return Number.isFinite(n) ? n : 0;
+  return Number.isFinite(value) ? value : 0;
 }
 
 export function isCancelled(order) {
