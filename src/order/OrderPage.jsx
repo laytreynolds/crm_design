@@ -4,6 +4,7 @@ import {
   Badge,
   Button,
   Card,
+  Checkbox,
   Dialog,
   Icon,
   IconButton,
@@ -34,10 +35,18 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
   const { message: toastMsg, show: showToast } = useToast();
   const [expanded, setExpanded] = useState(ALL_EXPANDED);
   const [discarding, setDiscarding] = useState(false);
+  // 'finance' is its own isolated page rather than a section in the scroll list;
+  // null means the normal all-sections overview.
+  const [activeSection, setActiveSection] = useState(null);
 
   // Arriving from a list-row action (e.g. "Add Note") jumps straight to that section.
   useEffect(() => {
     if (!focusSection) return;
+    if (focusSection === 'finance') {
+      setActiveSection('finance');
+      return;
+    }
+    setActiveSection(null);
     const raf = requestAnimationFrame(() => scrollToSection(focusSection));
     return () => cancelAnimationFrame(raf);
   }, [focusSection]);
@@ -80,6 +89,11 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
     ),
     notes: () => <Notes notes={order.notes} onUpdate={updateNote} onRemove={removeNote} />,
   };
+
+  const visibleSections =
+    activeSection === 'finance'
+      ? SECTIONS.filter((s) => s.key === 'finance')
+      : SECTIONS.filter((s) => s.key !== 'finance');
 
   return (
     <div className="os-page">
@@ -184,11 +198,17 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
           {SECTIONS.map((section) => (
             <a
               key={section.key}
-              className="os-navlink"
+              className={`os-navlink${activeSection === section.key ? ' os-navlink--active' : ''}`}
               href={`#${section.id}`}
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection(section.id);
+                if (section.key === 'finance') {
+                  setActiveSection('finance');
+                  window.scrollTo({ top: 0 });
+                } else {
+                  setActiveSection(null);
+                  scrollToSection(section.id);
+                }
               }}
             >
               {section.nav}
@@ -196,7 +216,7 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
           ))}
         </nav>
 
-        {SECTIONS.map((section) => (
+        {visibleSections.map((section) => (
           <SectionCard
             key={section.key}
             section={section}
@@ -320,6 +340,12 @@ function Field({ field, value, onChange, onCopy }) {
         options={SELECT_OPTIONS[field.options]}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+      />
+    ) : field.type === 'checkbox' ? (
+      <Checkbox
+        label={field.label}
+        checked={!!value}
+        onChange={(e) => onChange(e.target.checked)}
       />
     ) : (
       <Input

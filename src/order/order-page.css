@@ -160,6 +160,12 @@ body {
   outline-offset: 2px;
 }
 
+.os-navlink--active {
+  background: var(--color-brand-tint);
+  border-color: var(--color-brand);
+  color: var(--text-primary);
+}
+
 /* Sections ---------------------------------------------------------------- */
 
 .os-section-title {

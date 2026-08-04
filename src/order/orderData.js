@@ -76,9 +76,12 @@ export const initialOrder = {
     accountName: '',
     accountNumber: '',
     sortCode: '',
+    directDebitDueDate: '',
     bankName: '',
     bankBranch: '',
     timeWithBank: '',
+    recurringCardPayment: false,
+    inCreditControl: false,
   },
   fulfilment: {
     newContractEndDate: '',
