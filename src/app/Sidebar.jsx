@@ -51,7 +51,7 @@ export function Sidebar({ active, onNavigate }) {
               const isActive = item.id === active;
               const isExpanded = expanded.has(item.id);
               return (
-                <div key={item.id}>
+                <div className="os-sb-item-wrap" key={item.id}>
                   <a
                     className={`os-sb-item${isActive ? ' os-sb-item-active' : ''}`}
                     href="#"

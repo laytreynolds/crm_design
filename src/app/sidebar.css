@@ -219,6 +219,10 @@
     display: none;
   }
 
+  /* Sections/items are flexed all the way down instead of leaning on
+     `display: contents` to flatten the group wrapper into the row — WebKit
+     has a history of mis-sizing flex items flattened that way, which would
+     throw off the even full-width spacing this bar depends on. */
   .os-sidebar nav {
     display: flex;
     align-items: stretch;
@@ -228,11 +232,17 @@
   }
 
   .os-sb-section {
-    display: contents;
+    display: flex;
+    flex: 1;
   }
 
   .os-sb-group {
     display: none;
+  }
+
+  .os-sb-item-wrap {
+    display: flex;
+    flex: 1;
   }
 
   .os-sb-item {
@@ -295,14 +305,21 @@
     background: var(--ink-900);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     box-shadow: var(--shadow-lg);
-    padding: var(--space-4) var(--space-2) calc(var(--space-4) + env(safe-area-inset-bottom));
+    padding: 0 var(--space-2) calc(var(--space-4) + env(safe-area-inset-bottom));
   }
 
+  /* Sticky so the title and close button stay reachable while scrolling
+     through longer lists (Orders' 19 statuses, Settings' 12 pages). */
   .os-sb-children-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--space-3) var(--space-3);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--ink-900);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: var(--space-4) var(--space-3) var(--space-3);
     color: var(--white);
     font-family: var(--font-display);
     font-weight: var(--weight-semibold);
