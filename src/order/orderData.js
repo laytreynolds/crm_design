@@ -11,6 +11,7 @@ export const initialOrder = {
     accountRef: 'Ellie Stoakley - 3160268 - Pending: 06/08',
     accountNumber: '3160268',
     dob: '2001-08-14',
+    tektonLink: 'https://tekton.example.com/orders/3160268',
   },
   contact: {
     mobile: '07512469758',
@@ -32,6 +33,7 @@ export const initialOrder = {
     agentName: 'Jamie Dunn',
     eligibilityDate: '2026-07-29',
     saleType: 'EE Consumer',
+    leadSource: '',
     boxValue: '£245.14',
     simCard: 'Yes',
     quoteId: '',
@@ -90,6 +92,12 @@ export const initialOrder = {
     imeiNumber: '',
     simNumber: '241349865205',
     temporaryNumber: '',
+    welcomeEmailSent: false,
+    contractDocumentSent: false,
+    handsetDispatched: '',
+    simDispatched: '',
+    handsetReturned: false,
+    handsetReturnReceived: false,
   },
   notes: [
     {

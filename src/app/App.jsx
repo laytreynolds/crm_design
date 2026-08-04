@@ -6,6 +6,7 @@ import { OrdersListPage } from '../orders/OrdersListPage.jsx';
 import { ClientPage } from '../client/ClientPage.jsx';
 import { ClientsListPage } from '../clients/ClientsListPage.jsx';
 import { DashboardPage } from '../dashboard/DashboardPage.jsx';
+import { MyDashboardPage } from '../dashboard/MyDashboardPage.jsx';
 import { SettingsListPage } from '../settings/SettingsListPage.jsx';
 import { SETTINGS_CONFIG } from '../settings/settingsData.js';
 import { UsersListPage } from '../users/UsersListPage.jsx';
@@ -19,6 +20,7 @@ const NAV_SCREEN = {
   orders: 'orders-list',
   clients: 'clients-list',
   dashboard: 'dashboard',
+  'my-dashboard': 'my-dashboard',
   users: 'users-list',
   permissions: 'permissions-list',
 };
@@ -33,6 +35,7 @@ const SCREEN_NAV = {
   'clients-list': 'clients',
   'client-detail': 'clients',
   dashboard: 'dashboard',
+  'my-dashboard': 'my-dashboard',
   'settings-detail': 'settings',
   'users-list': 'users',
   'permissions-list': 'permissions',
@@ -123,6 +126,7 @@ export function App() {
         />
       )}
       {screen === 'dashboard' && <DashboardPage />}
+      {screen === 'my-dashboard' && <MyDashboardPage />}
       {screen === 'settings-detail' && <SettingsListPage key={settingId} settingId={settingId} />}
       {screen === 'users-list' && <UsersListPage />}
       {screen === 'permissions-list' && <PermissionsListPage />}

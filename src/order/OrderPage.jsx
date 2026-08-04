@@ -22,6 +22,10 @@ import './order-page.css';
 
 const ALL_EXPANDED = Object.fromEntries(SECTIONS.map((s) => [s.key, true]));
 
+// Sections that render as their own isolated page rather than inline in the
+// scroll list — clicking their nav link shows only that section.
+const ISOLATED_SECTIONS = new Set(['finance', 'fulfilment']);
+
 // Native date inputs store 'YYYY-MM-DD'; the header badge uses the same
 // DD/MM format as the seed status date.
 function toShortDate(isoDate) {
@@ -35,15 +39,15 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
   const { message: toastMsg, show: showToast } = useToast();
   const [expanded, setExpanded] = useState(ALL_EXPANDED);
   const [discarding, setDiscarding] = useState(false);
-  // 'finance' is its own isolated page rather than a section in the scroll list;
-  // null means the normal all-sections overview.
+  // 'finance' and 'fulfilment' are their own isolated pages rather than
+  // sections in the scroll list; null means the normal all-sections overview.
   const [activeSection, setActiveSection] = useState(null);
 
   // Arriving from a list-row action (e.g. "Add Note") jumps straight to that section.
   useEffect(() => {
     if (!focusSection) return;
-    if (focusSection === 'finance') {
-      setActiveSection('finance');
+    if (ISOLATED_SECTIONS.has(focusSection)) {
+      setActiveSection(focusSection);
       return;
     }
     setActiveSection(null);
@@ -90,10 +94,9 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
     notes: () => <Notes notes={order.notes} onUpdate={updateNote} onRemove={removeNote} />,
   };
 
-  const visibleSections =
-    activeSection === 'finance'
-      ? SECTIONS.filter((s) => s.key === 'finance')
-      : SECTIONS.filter((s) => s.key !== 'finance');
+  const visibleSections = activeSection
+    ? SECTIONS.filter((s) => s.key === activeSection)
+    : SECTIONS.filter((s) => !ISOLATED_SECTIONS.has(s.key));
 
   return (
     <div className="os-page">
@@ -121,6 +124,17 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
                   <Icon name="account_circle" size={16} />
                   View client
                 </button>
+              )}
+              {order.account.tektonLink && (
+                <a
+                  href={order.account.tektonLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="os-client-link"
+                >
+                  <Icon name="link" size={16} />
+                  Tekton link
+                </a>
               )}
             </div>
           </div>
@@ -202,8 +216,8 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
               href={`#${section.id}`}
               onClick={(e) => {
                 e.preventDefault();
-                if (section.key === 'finance') {
-                  setActiveSection('finance');
+                if (ISOLATED_SECTIONS.has(section.key)) {
+                  setActiveSection(section.key);
                   window.scrollTo({ top: 0 });
                 } else {
                   setActiveSection(null);

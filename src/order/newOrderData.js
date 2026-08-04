@@ -4,7 +4,14 @@
  * timeAtAddress which drives whether the previous address block shows.
  */
 export const blankOrder = {
-  account: { customerType: '', fullName: '', accountRef: '', accountNumber: '', dob: '' },
+  account: {
+    customerType: '',
+    fullName: '',
+    accountRef: '',
+    accountNumber: '',
+    dob: '',
+    tektonLink: '',
+  },
   contact: { mobile: '', landline: '', email: '' },
   billingAddress: { line1: '', line2: '', city: '', postcode: '' },
   previousAddress: { line1: '', line2: '', city: '', postcode: '' },

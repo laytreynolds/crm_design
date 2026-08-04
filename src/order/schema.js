@@ -69,6 +69,16 @@ export const SELECT_OPTIONS = {
     { value: 'Three Consumer', label: 'Three Consumer' },
     { value: 'Three Business', label: 'Three Business' },
   ],
+  yesNa: [
+    SELECT_PLACEHOLDER,
+    { value: 'Yes', label: 'Yes' },
+    { value: 'N/A', label: 'N/A' },
+  ],
+  leadSource: [
+    SELECT_PLACEHOLDER,
+    { value: 'Switcheroo', label: 'Switcheroo' },
+    { value: 'Website', label: 'Website' },
+  ],
 };
 
 /** Previous address is only relevant when the applicant hasn't been at their
@@ -182,6 +192,12 @@ export const SECTIONS = [
       { path: 'saleDetails.agentName', label: 'Agent name' },
       { path: 'saleDetails.eligibilityDate', label: 'Eligibility date', type: 'date' },
       { path: 'saleDetails.saleType', label: 'Sale type', type: 'select', options: 'saleType' },
+      {
+        path: 'saleDetails.leadSource',
+        label: 'Lead source',
+        type: 'select',
+        options: 'leadSource',
+      },
       { path: 'saleDetails.boxValue', label: 'Box value' },
       { path: 'saleDetails.simCard', label: 'Sim card', type: 'select', options: 'simCard' },
       { path: 'saleDetails.quoteId', label: 'Quote ID' },
@@ -312,6 +328,30 @@ export const SECTIONS = [
       { path: 'fulfilment.imeiNumber', label: 'IMEI number' },
       { path: 'fulfilment.simNumber', label: 'SIM number' },
       { path: 'fulfilment.temporaryNumber', label: 'Temporary number' },
+      {
+        path: 'fulfilment.handsetDispatched',
+        label: 'Handset dispatched',
+        type: 'select',
+        options: 'yesNa',
+      },
+      {
+        path: 'fulfilment.simDispatched',
+        label: 'SIM dispatched',
+        type: 'select',
+        options: 'yesNa',
+      },
+      { path: 'fulfilment.welcomeEmailSent', label: 'Welcome email sent', type: 'checkbox' },
+      {
+        path: 'fulfilment.contractDocumentSent',
+        label: 'Contract document sent',
+        type: 'checkbox',
+      },
+      { path: 'fulfilment.handsetReturned', label: 'Handset returned', type: 'checkbox' },
+      {
+        path: 'fulfilment.handsetReturnReceived',
+        label: 'Handset return received',
+        type: 'checkbox',
+      },
     ],
   },
   {
