@@ -321,6 +321,10 @@
   background: #a3ad2f;
 }
 
+.ol-status--cancelled {
+  background: #8a3a34;
+}
+
 .ol-toast-anchor {
   position: fixed;
   bottom: 24px;

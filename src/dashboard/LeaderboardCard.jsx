@@ -1,6 +1,12 @@
 import { Icon } from '../ds/index.js';
-import { boardTotal } from './leaderboardData.js';
-import { formatGBP } from './formatCurrency.js';
+import { formatGBP } from './format.js';
+
+function boardTotal(entries) {
+  return entries.reduce(
+    (acc, e) => ({ count: acc.count + e.count, value: acc.value + e.value }),
+    { count: 0, value: 0 },
+  );
+}
 
 export function LeaderboardCard({ title, tone, entries }) {
   const total = boardTotal(entries);

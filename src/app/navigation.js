@@ -7,7 +7,6 @@ export const NAV_GROUPS = [
     label: 'Main',
     items: [
       { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
-      { id: 'leaderboard', label: 'Leaderboard', icon: 'emoji_events' },
     ],
   },
   {

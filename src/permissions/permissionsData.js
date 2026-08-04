@@ -5,13 +5,13 @@
 export const INITIAL_PERMISSIONS = [
   {
     id: 1,
-    name: 'View Orders',
-    description: 'Can view the orders list and order detail pages.',
+    name: 'Administrator',
+    description: 'Edit everything, including users, permissions and settings.',
     category: 'Orders',
   },
   {
     id: 2,
-    name: 'Edit Orders',
+    name: 'Customer Service',
     description: 'Can create, update and change the status of orders.',
     category: 'Orders',
   },
@@ -59,8 +59,8 @@ export const INITIAL_PERMISSIONS = [
   },
   {
     id: 10,
-    name: 'View Leaderboard',
-    description: 'Can view sales leaderboard rankings and figures.',
+    name: 'View Dashboard',
+    description: 'Can view sales dashboard metrics, trends and leaderboard rankings.',
     category: 'Reporting',
   },
 ];

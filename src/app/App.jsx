@@ -5,7 +5,7 @@ import { NewOrderPage } from '../order/NewOrderPage.jsx';
 import { OrdersListPage } from '../orders/OrdersListPage.jsx';
 import { ClientPage } from '../client/ClientPage.jsx';
 import { ClientsListPage } from '../clients/ClientsListPage.jsx';
-import { LeaderboardPage } from '../leaderboard/LeaderboardPage.jsx';
+import { DashboardPage } from '../dashboard/DashboardPage.jsx';
 import { SettingsListPage } from '../settings/SettingsListPage.jsx';
 import { SETTINGS_CONFIG } from '../settings/settingsData.js';
 import { UsersListPage } from '../users/UsersListPage.jsx';
@@ -18,7 +18,7 @@ import { PermissionsListPage } from '../permissions/PermissionsListPage.jsx';
 const NAV_SCREEN = {
   orders: 'orders-list',
   clients: 'clients-list',
-  leaderboard: 'leaderboard',
+  dashboard: 'dashboard',
   users: 'users-list',
   permissions: 'permissions-list',
 };
@@ -32,7 +32,7 @@ const SCREEN_NAV = {
   'new-order': 'orders',
   'clients-list': 'clients',
   'client-detail': 'clients',
-  leaderboard: 'leaderboard',
+  dashboard: 'dashboard',
   'settings-detail': 'settings',
   'users-list': 'users',
   'permissions-list': 'permissions',
@@ -94,7 +94,7 @@ export function App() {
           onOpenOrder={openOrder}
         />
       )}
-      {screen === 'leaderboard' && <LeaderboardPage />}
+      {screen === 'dashboard' && <DashboardPage />}
       {screen === 'settings-detail' && <SettingsListPage key={settingId} settingId={settingId} />}
       {screen === 'users-list' && <UsersListPage />}
       {screen === 'permissions-list' && <PermissionsListPage />}
