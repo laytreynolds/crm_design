@@ -102,6 +102,10 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
   const orderSections = welcomeCallGroupKey
     ? SECTIONS
     : SECTIONS.filter((s) => s.key !== 'welcomeCalls');
+  // Split for the nav bar only — content order for the scroll list still
+  // comes from orderSections, unaffected by this grouping.
+  const scrollSections = orderSections.filter((s) => !ISOLATED_SECTIONS.has(s.key));
+  const screenSections = orderSections.filter((s) => ISOLATED_SECTIONS.has(s.key));
 
   const renderers = {
     addresses: () => <Addresses order={order} onField={setField} onCopy={copyAddress} />,
@@ -214,25 +218,49 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
         </div>
 
         <nav className="os-navbar" aria-label="Order sections">
-          {orderSections.map((section) => (
-            <a
-              key={section.key}
-              className={`os-navlink${activeSection === section.key ? ' os-navlink--active' : ''}`}
-              href={`#${section.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                if (ISOLATED_SECTIONS.has(section.key)) {
-                  setActiveSection(section.key);
-                  window.scrollTo({ top: 0 });
-                } else {
+          <div className="os-navbar-scroll">
+            {scrollSections.map((section) => (
+              <a
+                key={section.key}
+                className="os-navlink"
+                href={`#${section.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
                   setActiveSection(null);
                   scrollToSection(section.id);
-                }
-              }}
-            >
-              {section.nav}
-            </a>
-          ))}
+                }}
+              >
+                {section.nav}
+              </a>
+            ))}
+          </div>
+
+          {screenSections.length > 0 && (
+            <>
+              <div className="os-navbar-divider" aria-hidden="true" />
+              <div className="cds-tabs os-navbar-screens" role="tablist" aria-label="Order screens">
+                {screenSections.map((section) => (
+                  <a
+                    key={section.key}
+                    role="tab"
+                    aria-selected={activeSection === section.key}
+                    className={`cds-tab os-navtab${
+                      activeSection === section.key ? ' cds-tab--active' : ''
+                    }`}
+                    href={`#${section.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveSection(section.key);
+                      window.scrollTo({ top: 0 });
+                    }}
+                  >
+                    {section.nav}
+                    <Icon name="open_in_new" size={14} />
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
         </nav>
 
         {visibleSections.map((section) => (

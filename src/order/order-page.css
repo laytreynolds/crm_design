@@ -126,9 +126,45 @@ body {
   background: var(--surface-subtle);
   padding: var(--space-3) 0;
   display: flex;
-  gap: var(--space-2);
+  align-items: center;
+  gap: var(--space-4);
   flex-wrap: wrap;
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.os-navbar-scroll {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* Separates the in-page jump links from the section tabs below so the two
+   navigation behaviors don't read as one undifferentiated group. */
+.os-navbar-divider {
+  align-self: stretch;
+  width: 1px;
+  background: var(--border-default);
+  flex: none;
+}
+
+/* Reuses the design system's underline tabs (cds-tab) rather than the pill
+   style: these links replace the whole view instead of scrolling to it, so
+   they get the "switching screens" affordance instead of "jump to anchor". */
+.os-navbar-screens {
+  flex-wrap: wrap;
+}
+
+.os-navtab {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+
+.os-navtab:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 .os-navlink {
@@ -158,12 +194,6 @@ body {
 .os-navlink:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
-}
-
-.os-navlink--active {
-  background: var(--color-brand-tint);
-  border-color: var(--color-brand);
-  color: var(--text-primary);
 }
 
 /* Sections ---------------------------------------------------------------- */
