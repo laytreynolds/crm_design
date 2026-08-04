@@ -28,7 +28,7 @@ export function Sidebar({ active, onNavigate }) {
   return (
     <aside className="os-sidebar">
       <div className="os-sb-logo">
-        <img src="/logo.png" alt="Chadwell Logo" style={{ width: '100%', height: 'auto' }} />
+        <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Chadwell Logo" style={{ width: '100%', height: 'auto' }} />
       </div>
 
       <nav aria-label="Main">
