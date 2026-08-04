@@ -20,7 +20,7 @@ import './order-page.css';
 
 const ALL_EXPANDED = Object.fromEntries(SECTIONS.map((s) => [s.key, true]));
 
-export function OrderPage({ onBack, focusSection } = {}) {
+export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
   const { order, setField, addNote, updateNote, removeNote, saveOrder, discardDraft, draftLabel } =
     useOrderDraft();
   const { message: toastMsg, show: showToast } = useToast();
@@ -89,6 +89,12 @@ export function OrderPage({ onBack, focusSection } = {}) {
               <span>
                 Box value <strong>{order.saleDetails.boxValue}</strong>
               </span>
+              {onOpenClient && (
+                <button type="button" className="os-client-link" onClick={onOpenClient}>
+                  <Icon name="account_circle" size={16} />
+                  View client
+                </button>
+              )}
             </div>
           </div>
 

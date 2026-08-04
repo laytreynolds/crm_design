@@ -93,6 +93,83 @@
   color: var(--green-500);
 }
 
+.os-sb-item-label {
+  flex: 1;
+}
+
+.os-sb-chevron {
+  color: var(--ink-600);
+  transition: transform var(--duration-normal) var(--ease-standard);
+}
+
+.os-sb-chevron-open {
+  transform: rotate(180deg);
+}
+
+/* Nested nav ---------------------------------------------------------------- */
+
+.os-sb-children {
+  padding: var(--space-2) 0 var(--space-2) 0;
+}
+
+.os-sb-subgroup {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-600);
+  margin: var(--space-4) 0 var(--space-1) 40px;
+}
+
+.os-sb-childgroup:first-child .os-sb-subgroup {
+  margin-top: var(--space-1);
+}
+
+.os-sb-subitem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 7px var(--space-3) 7px 40px;
+  border-radius: var(--radius-md);
+  color: var(--ink-500);
+  text-decoration: none;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  transition: background var(--duration-normal) var(--ease-standard);
+}
+
+.os-sb-subitem:hover,
+.os-sb-subitem:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink-200);
+  text-decoration: none;
+}
+
+.os-sb-subitem:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+.os-sb-bullet {
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid var(--ink-600);
+}
+
+.os-sb-subitem-active,
+.os-sb-subitem-active:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  font-weight: var(--weight-semibold);
+}
+
+.os-sb-subitem-active .os-sb-bullet {
+  background: var(--green-500);
+  border-color: var(--green-500);
+}
+
 /* Below the two-column threshold the rail becomes a scrolling strip across the
    top; group labels drop out because the icons and text carry enough meaning. */
 @media (max-width: 900px) {
@@ -128,10 +205,20 @@
     flex: none;
     white-space: nowrap;
   }
+
+  .os-sb-chevron {
+    display: none;
+  }
+
+  .os-sb-children {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .os-sb-item {
+  .os-sb-item,
+  .os-sb-subitem,
+  .os-sb-chevron {
     transition: none;
   }
 }

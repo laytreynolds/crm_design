@@ -13,7 +13,7 @@ import './clients-list.css';
 const SEARCH_FIELDS = ['fullName', 'email', 'mobile', 'assigned'];
 const EMPTY_FILTERS = { assignedUser: '', status: '' };
 
-export function ClientsListPage() {
+export function ClientsListPage({ onOpenClient }) {
   const [clients, setClients] = useState(INITIAL_CLIENTS);
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(() => new Set());
@@ -47,17 +47,6 @@ export function ClientsListPage() {
       else next.add(id);
       return next;
     });
-  }
-
-  function handleCopy(client) {
-    setClients((prev) => {
-      const idx = prev.findIndex((c) => c.id === client.id);
-      const copy = { ...client, id: Date.now(), fullName: `${client.fullName} (Copy)` };
-      const next = prev.slice();
-      next.splice(idx + 1, 0, copy);
-      return next;
-    });
-    showToast(`${client.fullName} copied`);
   }
 
   function handleDeleteConfirmed() {
@@ -202,31 +191,19 @@ export function ClientsListPage() {
                     <button
                       type="button"
                       className="cl-name-link"
-                      onClick={() => showToast('Client details coming soon')}
+                      onClick={() => onOpenClient?.(client.id, 'view')}
                     >
                       {client.fullName}
                     </button>
                     <div className="cl-row-actions">
-                      <button
-                        type="button"
-                        onClick={() => showToast('Client details coming soon')}
-                      >
+                      <button type="button" onClick={() => onOpenClient?.(client.id, 'view')}>
                         View
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => showToast('Client details coming soon')}
-                      >
+                      <button type="button" onClick={() => onOpenClient?.(client.id, 'edit')}>
                         Edit
-                      </button>
-                      <button type="button" onClick={() => showToast('Client notes coming soon')}>
-                        Add Note
                       </button>
                       <button type="button" onClick={() => setPendingDelete(client)}>
                         Delete
-                      </button>
-                      <button type="button" onClick={() => handleCopy(client)}>
-                        Create a Copy
                       </button>
                     </div>
                   </td>

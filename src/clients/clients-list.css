@@ -247,6 +247,9 @@
 
 .cl-status {
   display: inline-block;
+  width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding: 4px 14px;
   border-radius: var(--radius-pill);
   font-size: var(--text-xs);

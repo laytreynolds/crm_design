@@ -292,7 +292,7 @@
 
 .ol-status {
   display: inline-block;
-  max-width: 130px;
+  width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
