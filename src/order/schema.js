@@ -102,6 +102,13 @@ export const SELECT_OPTIONS = {
     { value: 'Switcheroo', label: 'Switcheroo' },
     { value: 'Website', label: 'Website' },
   ],
+  documentCategory: [
+    { value: 'Contract', label: 'Contract' },
+    { value: 'ID Verification', label: 'ID verification' },
+    { value: 'Proof of Address', label: 'Proof of address' },
+    { value: 'Correspondence', label: 'Correspondence' },
+    { value: 'Other', label: 'Other' },
+  ],
 };
 
 /** Previous address is only relevant when the applicant hasn't been at their
@@ -494,5 +501,12 @@ export const SECTIONS = [
     nav: 'Notes',
     title: 'Notes',
     render: 'notes',
+  },
+  {
+    key: 'documents',
+    id: 'documents',
+    nav: 'Documents',
+    title: 'Documents',
+    render: 'documents',
   },
 ];

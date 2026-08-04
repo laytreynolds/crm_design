@@ -140,6 +140,28 @@ export const initialOrder = {
       reference: 'EXP-40217-C',
     },
   ],
+  documents: [
+    {
+      id: 1,
+      name: 'Signed_Contract_EllieStoakley.pdf',
+      category: 'Contract',
+      size: '1.2 MB',
+      date: '30-07-2026',
+      time: '02:15 PM',
+      uploadedBy: 'Alison Box',
+      url: '',
+    },
+    {
+      id: 2,
+      name: 'ID_Verification_EllieStoakley.jpg',
+      category: 'ID Verification',
+      size: '840 KB',
+      date: '29-07-2026',
+      time: '11:03 AM',
+      uploadedBy: 'Alison Box',
+      url: '',
+    },
+  ],
   notes: [
     {
       id: 1,
@@ -222,6 +244,7 @@ const BUREAUS = ['Equifax', 'Experian', 'TransUnion'];
 const BUREAU_CODES = { Equifax: 'EQ', Experian: 'EXP', TransUnion: 'TU' };
 const CHECK_TYPES = ['Standard credit search', 'Affordability check', 'Identity verification', 'Full credit search'];
 const OUTCOME_POOL = [...Array(6).fill('Pass'), ...Array(3).fill('Refer'), ...Array(1).fill('Fail')];
+const DOCUMENT_CATEGORIES = ['Contract', 'ID Verification', 'Proof of Address', 'Correspondence'];
 
 function toShortDate(isoDate) {
   const [, m, d] = isoDate.split('-');
@@ -335,6 +358,22 @@ function buildOrderFromRow(row) {
     author: noteAuthor,
     status: 'Received',
   }));
+
+  const docCount = randInt(1, 3);
+  const documents = Array.from({ length: docCount }, (_, i) => {
+    const category = pick(DOCUMENT_CATEGORIES);
+    const ext = category === 'Contract' ? 'pdf' : pick(['pdf', 'jpg', 'png']);
+    return {
+      id: i + 1,
+      name: `${category.replace(/\s+/g, '_')}_${lastName || 'Customer'}.${ext}`,
+      category,
+      size: `${randInt(80, 1800)} KB`,
+      date: toDDMMYYYY(addDaysISO(row.placedDate, -randInt(0, 7))),
+      time: randomTime(rand, helpers),
+      uploadedBy: agentName,
+      url: '',
+    };
+  });
 
   return {
     status: { date: toShortDate(row.placedDate) },
@@ -451,6 +490,7 @@ function buildOrderFromRow(row) {
     },
     creditChecks,
     notes,
+    documents,
   };
 }
 

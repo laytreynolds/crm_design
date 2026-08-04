@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Breadcrumb } from '../app/Breadcrumb.jsx';
 import { formatGBP } from '../dashboard/format.js';
 import {
@@ -33,7 +33,7 @@ const ALL_EXPANDED = Object.fromEntries(SECTIONS.map((s) => [s.key, true]));
 
 // Sections that render as their own isolated page rather than inline in the
 // scroll list — clicking their nav link shows only that section.
-const ISOLATED_SECTIONS = new Set(['finance', 'fulfilment', 'welcomeCalls']);
+const ISOLATED_SECTIONS = new Set(['finance', 'fulfilment', 'welcomeCalls', 'documents']);
 
 // Native date inputs store 'YYYY-MM-DD'; the header badge uses the same
 // DD/MM format as the seed status date.
@@ -43,7 +43,16 @@ function toShortDate(isoDate) {
 }
 
 export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) {
-  const { order, setField, addNote, updateNote, removeNote } = useOrderDraft(orderId);
+  const {
+    order,
+    setField,
+    addNote,
+    updateNote,
+    removeNote,
+    addDocument,
+    updateDocument,
+    removeDocument,
+  } = useOrderDraft(orderId);
   const { message: toastMsg, show: showToast } = useToast();
   const [expanded, setExpanded] = useState(ALL_EXPANDED);
   // 'finance' and 'fulfilment' are their own isolated pages rather than
@@ -114,6 +123,9 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
         onField={setField}
         group={welcomeCallGroupKey ? WELCOME_CALL_GROUPS[welcomeCallGroupKey] : null}
       />
+    ),
+    documents: () => (
+      <Documents documents={order.documents} onUpdate={updateDocument} onRemove={removeDocument} />
     ),
   };
 
@@ -239,6 +251,8 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
                 >
                   Add note
                 </Button>
+              ) : section.key === 'documents' ? (
+                <AddDocumentButton onAdd={addDocument} />
               ) : null
             }
           >
@@ -520,6 +534,106 @@ function Notes({ notes, onUpdate, onRemove }) {
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function AddDocumentButton({ onAdd }) {
+  const inputRef = useRef(null);
+
+  return (
+    <>
+      <Button
+        variant="secondary"
+        size="sm"
+        icon={<Icon name="upload_file" />}
+        onClick={() => inputRef.current?.click()}
+      >
+        Add document
+      </Button>
+      <input
+        ref={inputRef}
+        type="file"
+        hidden
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) onAdd(file);
+          e.target.value = '';
+        }}
+      />
+    </>
+  );
+}
+
+// Picks a glyph by extension so the row gives a quick visual read of file type.
+function documentIcon(name) {
+  const ext = name.split('.').pop()?.toLowerCase();
+  if (ext === 'pdf') return 'picture_as_pdf';
+  if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return 'image';
+  return 'description';
+}
+
+function Documents({ documents, onUpdate, onRemove }) {
+  if (!documents || documents.length === 0) {
+    return <p className="os-empty">No documents on this order yet.</p>;
+  }
+
+  return (
+    <div className="os-table-wrap">
+      <table className="os-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Size</th>
+            <th>Uploaded</th>
+            <th aria-label="Actions" />
+          </tr>
+        </thead>
+        <tbody>
+          {documents.map((doc) => (
+            <tr key={doc.id}>
+              <td>
+                {doc.url ? (
+                  <a
+                    href={doc.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="os-doc-link"
+                  >
+                    <Icon name={documentIcon(doc.name)} size={16} />
+                    {doc.name}
+                  </a>
+                ) : (
+                  <span className="os-doc-link os-doc-link--static">
+                    <Icon name={documentIcon(doc.name)} size={16} />
+                    {doc.name}
+                  </span>
+                )}
+              </td>
+              <td>
+                <Select
+                  value={doc.category}
+                  options={SELECT_OPTIONS.documentCategory}
+                  onChange={(e) => onUpdate(doc.id, { category: e.target.value })}
+                />
+              </td>
+              <td>{doc.size}</td>
+              <td>
+                {doc.date} · {doc.time} · {doc.uploadedBy}
+              </td>
+              <td>
+                <IconButton
+                  size="sm"
+                  aria-label={`Delete ${doc.name}`}
+                  icon={<Icon name="delete" size={16} />}
+                  onClick={() => onRemove(doc.id)}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

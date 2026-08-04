@@ -409,6 +409,29 @@ body {
   background: var(--surface-subtle);
 }
 
+/* Documents ----------------------------------------------------------------- */
+
+.os-doc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-link);
+  text-decoration: none;
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+}
+
+.os-doc-link:hover,
+.os-doc-link:focus-visible {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
+
+.os-doc-link--static {
+  color: var(--text-primary);
+  cursor: default;
+}
+
 /* Toast ------------------------------------------------------------------- */
 
 .os-toast-anchor {

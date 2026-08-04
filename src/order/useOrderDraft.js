@@ -32,6 +32,12 @@ function deepMerge(base, patch) {
   return result;
 }
 
+function formatFileSize(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 function stamp(now) {
   const pad = (n) => String(n).padStart(2, '0');
   let hours = now.getHours() % 12;
@@ -135,6 +141,51 @@ export function useOrderDraft(orderId) {
     [scheduleSave],
   );
 
+  // The uploaded File itself isn't kept in state, only a blob URL for
+  // preview/download — File instances don't survive the JSON draft roundtrip.
+  const addDocument = useCallback(
+    (file) => {
+      if (!file) return;
+      const { date, time } = stamp(new Date());
+      const doc = {
+        id: Date.now(),
+        name: file.name,
+        category: 'Other',
+        size: formatFileSize(file.size),
+        date,
+        time,
+        uploadedBy: 'You',
+        url: URL.createObjectURL(file),
+      };
+      setOrder((prev) => ({ ...prev, documents: [...prev.documents, doc] }));
+      scheduleSave();
+    },
+    [scheduleSave],
+  );
+
+  const updateDocument = useCallback(
+    (id, patch) => {
+      setOrder((prev) => ({
+        ...prev,
+        documents: prev.documents.map((d) => (d.id === id ? { ...d, ...patch } : d)),
+      }));
+      scheduleSave();
+    },
+    [scheduleSave],
+  );
+
+  const removeDocument = useCallback(
+    (id) => {
+      setOrder((prev) => {
+        const doc = prev.documents.find((d) => d.id === id);
+        if (doc?.url) URL.revokeObjectURL(doc.url);
+        return { ...prev, documents: prev.documents.filter((d) => d.id !== id) };
+      });
+      scheduleSave();
+    },
+    [scheduleSave],
+  );
+
   const clearDraft = useCallback(() => {
     clearTimeout(saveTimer.current);
     try {
@@ -163,5 +214,17 @@ export function useOrderDraft(orderId) {
     draftLabel = `Draft saved ${pad(lastSavedAt.getHours())}:${pad(lastSavedAt.getMinutes())}`;
   }
 
-  return { order, setField, addNote, updateNote, removeNote, saveOrder, discardDraft, draftLabel };
+  return {
+    order,
+    setField,
+    addNote,
+    updateNote,
+    removeNote,
+    addDocument,
+    updateDocument,
+    removeDocument,
+    saveOrder,
+    discardDraft,
+    draftLabel,
+  };
 }
