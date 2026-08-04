@@ -21,6 +21,13 @@ import './order-page.css';
 
 const ALL_EXPANDED = Object.fromEntries(SECTIONS.map((s) => [s.key, true]));
 
+// Native date inputs store 'YYYY-MM-DD'; the header badge uses the same
+// DD/MM format as the seed status date.
+function toShortDate(isoDate) {
+  const [year, month, day] = isoDate.split('-');
+  return `${day}/${month}`;
+}
+
 export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
   const { order, setField, addNote, updateNote, removeNote, saveOrder, discardDraft, draftLabel } =
     useOrderDraft();
@@ -57,6 +64,10 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
     [order, copy],
   );
 
+  const statusDate = order.additionalSale.portDate
+    ? toShortDate(order.additionalSale.portDate)
+    : order.status.date;
+
   const renderers = {
     addresses: () => <Addresses order={order} onField={setField} onCopy={copyAddress} />,
     handsetTariff: () => <HandsetTariffSection order={order} onField={setField} />,
@@ -86,7 +97,7 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
             <div className="os-header-eyebrow">Order · account {order.account.accountNumber}</div>
             <h1 className="os-header-name">{order.account.fullName}</h1>
             <div className="os-header-meta">
-              <Badge tone="warning">Pending · {order.status.date}</Badge>
+              <Badge tone="warning">Pending · {statusDate}</Badge>
               <Tag>{order.saleDetails.saleType}</Tag>
               <span>
                 Box value <strong>{order.saleDetails.boxValue}</strong>
@@ -131,7 +142,7 @@ export function OrderPage({ onBack, focusSection, onOpenClient } = {}) {
             variant="secondary"
             size="sm"
             icon={<Icon name="flag" />}
-            onClick={() => showToast(`Status: Pending · ${order.status.date}`)}
+            onClick={() => showToast(`Status: Pending · ${statusDate}`)}
           >
             Complete
           </Button>

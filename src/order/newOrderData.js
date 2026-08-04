@@ -10,7 +10,7 @@ export const blankOrder = {
   previousAddress: { line1: '', line2: '', city: '', postcode: '' },
   deliveryAddress: { line1: '', line2: '', city: '', postcode: '' },
   timeAtAddress: '',
-  currentPackage: { network: '', handset: '', speed: '', eligibilityDate: '' },
+  currentPackage: { network: '', handset: '', spend: '', eligibilityDate: '' },
   saleDetails: {
     handsetOld: '',
     tariffOld: '',
@@ -20,7 +20,7 @@ export const blankOrder = {
     boxValue: '',
     simCard: '',
     quoteId: '',
-    speedCap: '',
+    spendCap: '',
     contractTerm: '',
     contractEndTermDate: '',
   },

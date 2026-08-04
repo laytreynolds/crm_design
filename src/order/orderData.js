@@ -23,7 +23,7 @@ export const initialOrder = {
   currentPackage: {
     network: 'Plan EE',
     handset: 'iPhone',
-    speed: '5G',
+    spend: '5G',
     eligibilityDate: '2026-07-29',
   },
   saleDetails: {
@@ -35,7 +35,7 @@ export const initialOrder = {
     boxValue: '£245.14',
     simCard: 'Yes',
     quoteId: '',
-    speedCap: '',
+    spendCap: '',
     contractTerm: '24 Months',
     contractEndTermDate: '',
   },

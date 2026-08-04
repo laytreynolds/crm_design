@@ -167,7 +167,7 @@ export const SECTIONS = [
     fields: [
       { path: 'currentPackage.network', label: 'Current network' },
       { path: 'currentPackage.handset', label: 'Current handset' },
-      { path: 'currentPackage.speed', label: 'Current speed' },
+      { path: 'currentPackage.spend', label: 'Current spend' },
       { path: 'currentPackage.eligibilityDate', label: 'Eligibility date', type: 'date' },
     ],
   },
@@ -184,7 +184,7 @@ export const SECTIONS = [
       { path: 'saleDetails.boxValue', label: 'Box value' },
       { path: 'saleDetails.simCard', label: 'Sim card', type: 'select', options: 'simCard' },
       { path: 'saleDetails.quoteId', label: 'Quote ID' },
-      { path: 'saleDetails.speedCap', label: 'Spend cap' },
+      { path: 'saleDetails.spendCap', label: 'Spend cap' },
       {
         path: 'saleDetails.contractTerm',
         label: 'Contract term',
