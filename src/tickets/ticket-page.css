@@ -1,0 +1,519 @@
+/* Ticket page layout — same structure as order/order-page.css and
+   client/clientPage.css: anything reusable lives in the design system, these
+   rules are the page-specific composition on top of it. */
+
+body {
+  background: var(--surface-subtle);
+}
+
+.tk-page {
+  padding: var(--space-8) var(--space-8) var(--space-24);
+  font-family: var(--font-body);
+}
+
+.tk-page-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Header -------------------------------------------------------------- */
+
+.tk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+.tk-header-eyebrow {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: var(--weight-medium);
+}
+
+.tk-header-name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.tk-header-meta {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.tk-header-meta > * {
+  flex: none;
+  white-space: nowrap;
+}
+
+.tk-header-meta strong {
+  color: var(--text-primary);
+}
+
+/* Action bar ------------------------------------------------------------ */
+
+.tk-actionbar {
+  display: flex;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.tk-actionbar-field {
+  width: 220px;
+}
+
+/* Section jump nav -------------------------------------------------------- */
+
+.tk-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--surface-subtle);
+  padding: var(--space-3) 0;
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tk-navlink {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+  background: var(--surface-page);
+  border: 1px solid var(--border-default);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background var(--duration-normal) var(--ease-standard),
+    border-color var(--duration-normal) var(--ease-standard),
+    color var(--duration-normal) var(--ease-standard);
+}
+
+.tk-navlink:hover,
+.tk-navlink:focus-visible {
+  background: var(--color-brand-tint);
+  border-color: var(--color-brand);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.tk-navlink:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Sections ---------------------------------------------------------------- */
+
+.tk-section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.tk-sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tk-sec-head:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.tk-sec-heading {
+  margin: 0;
+  letter-spacing: normal;
+}
+
+.tk-sec-heading--spaced {
+  margin-bottom: var(--space-5);
+}
+
+.tk-sec-head-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.tk-sec-head-row > .tk-sec-heading {
+  flex: 1;
+}
+
+.tk-chevron {
+  color: var(--text-secondary);
+  transition: transform var(--duration-normal) var(--ease-standard);
+}
+
+.tk-chevron--open {
+  transform: rotate(180deg);
+}
+
+/* Field grids --------------------------------------------------------------- */
+
+.tk-grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5) var(--space-6);
+}
+
+.tk-grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-5);
+}
+
+.tk-subhead {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  margin: var(--space-6) 0 var(--space-4) 0;
+}
+
+.tk-subhead:first-child {
+  margin-top: 0;
+}
+
+/* View-style fields, used for the read-only client/order summaries --------- */
+
+.tk-view-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tk-view-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.tk-view-value {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.tk-view-value--lg {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  margin-bottom: 6px;
+}
+
+.tk-empty {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.tk-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+/* Client info -------------------------------------------------------------- */
+
+.tk-client-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.tk-addr-view {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+/* Order summary -------------------------------------------------------------
+   Chip tones mirror orders/orders-list.css's `.ol-status--*` set. */
+
+.tk-order-actions {
+  margin-top: var(--space-6);
+}
+
+.tk-order-status {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.tk-order-status--awaiting {
+  background: var(--ink-900);
+}
+
+.tk-order-status--declined {
+  background: #d9584f;
+}
+
+.tk-order-status--process {
+  background: #f0a530;
+}
+
+.tk-order-status--stock {
+  background: #a3ad2f;
+}
+
+.tk-order-status--cancelled {
+  background: #8a3a34;
+}
+
+/* Ticket status pill (header) — same tones as tickets-list.css's
+   `.tl-status--*`, duplicated here since each page owns its own stylesheet. */
+
+.tk-status {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.tk-status--open {
+  background: #4d7ea8;
+}
+
+.tk-status--progress {
+  background: #f0a530;
+}
+
+.tk-status--awaiting {
+  background: #a3ad2f;
+}
+
+.tk-status--resolved {
+  background: var(--color-brand-hover);
+}
+
+.tk-status--closed {
+  background: var(--ink-600);
+}
+
+/* Activity log --------------------------------------------------------------
+   Append-only, so entries render as a read-only timeline rather than the
+   editable rows order/OrderPage.jsx's notes list uses. */
+
+.tk-activity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.tk-activity-item {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-page);
+}
+
+.tk-activity-item--message {
+  background: var(--color-brand-tint);
+  border-color: var(--color-brand-tint-strong);
+}
+
+.tk-activity-item--status {
+  background: var(--surface-subtle);
+}
+
+.tk-activity-icon {
+  color: var(--text-secondary);
+  flex: none;
+  margin-top: 2px;
+}
+
+.tk-activity-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tk-activity-meta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.tk-activity-kind {
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.tk-activity-text {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  line-height: var(--leading-relaxed);
+  white-space: pre-wrap;
+}
+
+/* Note composer -------------------------------------------------------------- */
+
+.tk-composer {
+  margin-bottom: var(--space-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background: var(--surface-page);
+}
+
+.tk-composer-ta {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  resize: vertical;
+}
+
+.tk-composer-ta:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-tint-strong);
+}
+
+.tk-composer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+/* Link client dialog ---------------------------------------------------------- */
+
+.tk-link-search {
+  width: 100%;
+  margin-bottom: var(--space-4);
+}
+
+.tk-link-results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.tk-link-result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-page);
+  cursor: pointer;
+}
+
+.tk-link-result:hover,
+.tk-link-result:focus-visible {
+  border-color: var(--color-brand);
+  background: var(--color-brand-tint);
+}
+
+.tk-link-result-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.tk-link-result-meta {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+/* Toast ------------------------------------------------------------------- */
+
+.tk-toast-anchor {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+}
+
+/* Responsive -------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .tk-grid3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .tk-page {
+    padding: var(--space-5) var(--space-4) var(--space-16);
+  }
+
+  .tk-grid3,
+  .tk-grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .tk-actionbar-field {
+    width: 100%;
+  }
+
+  .tk-client-head {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tk-chevron,
+  .tk-navlink {
+    transition: none;
+  }
+}

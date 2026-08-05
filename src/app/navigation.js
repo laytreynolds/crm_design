@@ -52,6 +52,28 @@ export const NAV_GROUPS = [
     ],
   },
   {
+    label: 'Support',
+    items: [
+      {
+        id: 'tickets',
+        label: 'Tickets',
+        icon: 'confirmation_number',
+        children: [
+          {
+            group: 'All Tickets',
+            items: [
+              { id: 'tickets-open', label: 'Open' },
+              { id: 'tickets-in-progress', label: 'In Progress' },
+              { id: 'tickets-awaiting-customer', label: 'Awaiting Customer' },
+              { id: 'tickets-resolved', label: 'Resolved' },
+              { id: 'tickets-closed', label: 'Closed' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
     label: 'Users & Permissions',
     items: [
       {

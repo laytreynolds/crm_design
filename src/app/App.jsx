@@ -11,6 +11,8 @@ import { SettingsListPage } from '../settings/SettingsListPage.jsx';
 import { SETTINGS_CONFIG } from '../settings/settingsData.js';
 import { UsersListPage } from '../users/UsersListPage.jsx';
 import { PermissionsListPage } from '../permissions/PermissionsListPage.jsx';
+import { TicketsListPage } from '../tickets/TicketsListPage.jsx';
+import { TicketPage } from '../tickets/TicketPage.jsx';
 
 // Nav id -> screen. Only these destinations have a built screen; the rest
 // of NAV_GROUPS stays inert until a real page exists for them. Settings'
@@ -23,6 +25,19 @@ const NAV_SCREEN = {
   'my-dashboard': 'my-dashboard',
   users: 'users-list',
   permissions: 'permissions-list',
+  tickets: 'tickets-list',
+};
+
+// Tickets' sidebar sub-items map to a real status (unlike Orders' pipeline
+// sub-items, which are shell-only — see navigation.js) since the ticket
+// statuses are a small, fixed set that lines up exactly with the list
+// page's own status filter.
+const TICKET_STATUS_NAV = {
+  'tickets-open': 'Open',
+  'tickets-in-progress': 'In Progress',
+  'tickets-awaiting-customer': 'Awaiting Customer',
+  'tickets-resolved': 'Resolved',
+  'tickets-closed': 'Closed',
 };
 
 // order-detail/client-detail/settings-detail aren't nav destinations
@@ -39,6 +54,8 @@ const SCREEN_NAV = {
   'settings-detail': 'settings',
   'users-list': 'users',
   'permissions-list': 'permissions',
+  'tickets-list': 'tickets',
+  'ticket-detail': 'tickets',
 };
 
 // Screen/settingId are kept in sessionStorage so a refresh reopens the same
@@ -61,12 +78,14 @@ export function App() {
   const [screen, setScreen] = useState(stored?.screen ?? 'dashboard');
   const [focusSection, setFocusSection] = useState(null);
   const [orderId, setOrderId] = useState(stored?.orderId ?? null);
+  const [ticketId, setTicketId] = useState(stored?.ticketId ?? null);
+  const [ticketStatusFilter, setTicketStatusFilter] = useState(null);
   const [clientMode, setClientMode] = useState('view');
   const [settingId, setSettingId] = useState(stored?.settingId ?? null);
 
   useEffect(() => {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ screen, settingId, orderId }));
-  }, [screen, settingId, orderId]);
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ screen, settingId, orderId, ticketId }));
+  }, [screen, settingId, orderId, ticketId]);
 
   function handleNavigate(navId) {
     if (navId in SETTINGS_CONFIG) {
@@ -82,6 +101,12 @@ export function App() {
       setScreen('settings-detail');
       return;
     }
+    if (navId in TICKET_STATUS_NAV) {
+      setTicketStatusFilter(TICKET_STATUS_NAV[navId]);
+      setScreen('tickets-list');
+      return;
+    }
+    if (navId === 'tickets') setTicketStatusFilter(null);
     const target = NAV_SCREEN[navId];
     if (target) setScreen(target);
   }
@@ -90,6 +115,12 @@ export function App() {
     setOrderId(id);
     setFocusSection(section ?? null);
     setScreen('order-detail');
+  }
+
+  function openTicket(id, section) {
+    setTicketId(id);
+    setFocusSection(section ?? null);
+    setScreen('ticket-detail');
   }
 
   // Same idea as openOrder: one demo client record, opened in either mode
@@ -132,6 +163,23 @@ export function App() {
       {screen === 'settings-detail' && <SettingsListPage key={settingId} settingId={settingId} />}
       {screen === 'users-list' && <UsersListPage />}
       {screen === 'permissions-list' && <PermissionsListPage />}
+      {screen === 'tickets-list' && (
+        <TicketsListPage
+          key={ticketStatusFilter ?? 'all'}
+          onOpenTicket={openTicket}
+          initialStatus={ticketStatusFilter}
+        />
+      )}
+      {screen === 'ticket-detail' && (
+        <TicketPage
+          key={ticketId}
+          onBack={() => setScreen('tickets-list')}
+          ticketId={ticketId}
+          focusSection={focusSection}
+          onOpenOrder={openOrder}
+          onOpenClient={() => openClient(undefined, 'view')}
+        />
+      )}
     </AppShell>
   );
 }
