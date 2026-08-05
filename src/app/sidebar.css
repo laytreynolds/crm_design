@@ -300,8 +300,17 @@
     right: 0;
     bottom: 0;
     z-index: 45;
+    /* `vh` is the *large* viewport on mobile Safari/Chrome — it includes the
+       space the address bar occupies even while the bar is on-screen, so a
+       height keyed off it can extend past the actually-visible viewport and
+       strand the sheet's bottom rows off-screen with no way to reach them.
+       `dvh` tracks the real, current viewport; the `vh` line stays as a
+       fallback for browsers that don't support `dvh` and simply ignore it. */
     max-height: 70vh;
+    max-height: 70dvh;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     background: var(--ink-900);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     box-shadow: var(--shadow-lg);
