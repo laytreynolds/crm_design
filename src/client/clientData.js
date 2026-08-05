@@ -45,4 +45,25 @@ export const initialClient = {
       placedDate: '14-02-2026',
     },
   ],
+  // Same two tickets as tickets/ticketsData.js's INITIAL_TICKETS (subject,
+  // status, source, updatedAt copied across) so "View" opens a ticket whose
+  // content actually matches what's shown here.
+  tickets: [
+    {
+      id: 'TCK-1042',
+      subject: 'SIM not activating after port',
+      status: 'In Progress',
+      statusTone: 'progress',
+      source: 'Email',
+      updatedAt: '05/08/2026, 09:40',
+    },
+    {
+      id: 'TCK-1030',
+      subject: 'Internal: credit check review needed',
+      status: 'Open',
+      statusTone: 'open',
+      source: 'Internal',
+      updatedAt: '05/08/2026, 06:40',
+    },
+  ],
 };

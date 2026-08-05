@@ -73,4 +73,11 @@ export const SECTIONS = [
     title: 'Orders',
     render: 'orders',
   },
+  {
+    key: 'tickets',
+    id: 'tickets',
+    nav: 'Tickets',
+    title: 'Tickets',
+    render: 'tickets',
+  },
 ];

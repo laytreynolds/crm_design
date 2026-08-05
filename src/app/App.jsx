@@ -151,6 +151,7 @@ export function App() {
           onBack={() => setScreen('clients-list')}
           mode={clientMode}
           onOpenOrder={openOrder}
+          onOpenTicket={openTicket}
         />
       )}
       {screen === 'dashboard' && <DashboardPage />}

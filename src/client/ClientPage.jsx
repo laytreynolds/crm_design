@@ -10,7 +10,7 @@ import './clientPage.css';
 
 const ALL_EXPANDED = Object.fromEntries(SECTIONS.map((s) => [s.key, true]));
 
-export function ClientPage({ onBack, mode: initialMode = 'view', onOpenOrder }) {
+export function ClientPage({ onBack, mode: initialMode = 'view', onOpenOrder, onOpenTicket }) {
   const [client, setClient] = useState(initialClient);
   const [mode, setMode] = useState(initialMode);
   const [expanded, setExpanded] = useState(ALL_EXPANDED);
@@ -62,6 +62,7 @@ export function ClientPage({ onBack, mode: initialMode = 'view', onOpenOrder }) 
   const renderers = {
     addresses: () => <Addresses client={client} mode={mode} onField={setField} onCopy={copyAddress} />,
     orders: () => <Orders orders={client.orders} onOpenOrder={onOpenOrder} />,
+    tickets: () => <Tickets tickets={client.tickets} onOpenTicket={onOpenTicket} />,
   };
 
   return (
@@ -297,6 +298,41 @@ function Orders({ orders, onOpenOrder }) {
           <span>{order.placedDate}</span>
           <span className="cp-orders-actions">
             <button type="button" onClick={() => onOpenOrder?.(order.id)}>
+              View
+            </button>
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Tickets({ tickets, onOpenTicket }) {
+  if (!tickets || tickets.length === 0) {
+    return <p className="cp-empty">No tickets linked to this client yet.</p>;
+  }
+
+  return (
+    <div className="cp-tickets-table">
+      <div className="cp-tickets-row cp-tickets-head">
+        <span>Subject</span>
+        <span>Status</span>
+        <span>Source</span>
+        <span>Updated</span>
+        <span />
+      </div>
+      {tickets.map((ticket) => (
+        <div className="cp-tickets-row" key={ticket.id}>
+          <span>{ticket.subject}</span>
+          <span>
+            <span className={`cp-ticket-status cp-ticket-status--${ticket.statusTone}`}>
+              {ticket.status}
+            </span>
+          </span>
+          <span>{ticket.source}</span>
+          <span>{ticket.updatedAt}</span>
+          <span className="cp-tickets-actions">
+            <button type="button" onClick={() => onOpenTicket?.(ticket.id)}>
               View
             </button>
           </span>
