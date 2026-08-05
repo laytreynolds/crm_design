@@ -46,8 +46,8 @@ export const initialClient = {
     },
   ],
   // Same two tickets as tickets/ticketsData.js's INITIAL_TICKETS (subject,
-  // status, source, updatedAt copied across) so "View" opens a ticket whose
-  // content actually matches what's shown here.
+  // status, source, priority, createdAt, updatedAt copied across) so "View"
+  // opens a ticket whose content actually matches what's shown here.
   tickets: [
     {
       id: 'TCK-1042',
@@ -55,6 +55,8 @@ export const initialClient = {
       status: 'In Progress',
       statusTone: 'progress',
       source: 'Email',
+      priority: 'Medium',
+      createdAt: '2026-08-05 08:12',
       updatedAt: '05/08/2026, 09:40',
     },
     {
@@ -63,6 +65,8 @@ export const initialClient = {
       status: 'Open',
       statusTone: 'open',
       source: 'Internal',
+      priority: 'Medium',
+      createdAt: '2026-08-05 06:40',
       updatedAt: '05/08/2026, 06:40',
     },
   ],

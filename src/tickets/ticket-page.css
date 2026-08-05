@@ -335,6 +335,35 @@ body {
   background: var(--ink-600);
 }
 
+/* Priority pill (header + action bar) — same tones as tickets-list.css's
+   `.tl-priority--*`, duplicated here since each page owns its own stylesheet. */
+
+.tk-priority {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.tk-priority--low {
+  background: var(--ink-500);
+}
+
+.tk-priority--medium {
+  background: #4d7ea8;
+}
+
+.tk-priority--high {
+  background: #d9822b;
+}
+
+.tk-priority--urgent {
+  background: #c0392b;
+}
+
 /* Activity log --------------------------------------------------------------
    Append-only, so entries render as a read-only timeline rather than the
    editable rows order/OrderPage.jsx's notes list uses. */

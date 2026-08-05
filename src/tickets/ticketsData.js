@@ -8,6 +8,7 @@
  *   subject         string
  *   status          one of TICKET_STATUSES
  *   source          one of TICKET_SOURCES
+ *   priority        one of TICKET_PRIORITIES
  *   client_id       INITIAL_CLIENTS id, or null if unmatched
  *   contact_email   captured for Email-sourced tickets regardless of match outcome
  *   contact_phone   captured for Website Form-sourced tickets regardless of match outcome
@@ -28,6 +29,8 @@ export const TICKET_STATUSES = ['Open', 'In Progress', 'Awaiting Customer', 'Res
 
 export const TICKET_SOURCES = ['Email', 'Website Form', 'Internal'];
 
+export const TICKET_PRIORITIES = ['Low', 'Medium', 'High', 'Urgent'];
+
 /** Keys into the `.tk-status--*` chip colors in tickets-list.css / ticket-page.css. */
 export const STATUS_TONE = {
   Open: 'open',
@@ -35,6 +38,14 @@ export const STATUS_TONE = {
   'Awaiting Customer': 'awaiting',
   Resolved: 'resolved',
   Closed: 'closed',
+};
+
+/** Keys into the `.tk-priority--*` chip colors in tickets-list.css / ticket-page.css. */
+export const PRIORITY_TONE = {
+  Low: 'low',
+  Medium: 'medium',
+  High: 'high',
+  Urgent: 'urgent',
 };
 
 export const TICKET_STAFF = [
@@ -139,6 +150,24 @@ export function stampNow() {
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 }
 
+const MS_PER_DAY = 86400000;
+
+/** Whole days between a 'YYYY-MM-DD HH:MM' timestamp and now. */
+export function getTicketAgeDays(createdAt) {
+  const [datePart, timePart] = createdAt.split(' ');
+  const [y, m, d] = datePart.split('-').map(Number);
+  const [hh, mm] = timePart.split(':').map(Number);
+  const created = new Date(y, m - 1, d, hh, mm);
+  return Math.max(0, Math.floor((Date.now() - created.getTime()) / MS_PER_DAY));
+}
+
+/** 'Today' / '1 day' / 'N days' — how long the ticket has been open, for display. */
+export function formatTicketAge(createdAt) {
+  const days = getTicketAgeDays(createdAt);
+  if (days === 0) return 'Today';
+  return days === 1 ? '1 day' : `${days} days`;
+}
+
 let noteSeq = 1;
 function note(kind, text, author, at) {
   return { id: noteSeq++, kind, text, author, at };
@@ -150,6 +179,7 @@ export const INITIAL_TICKETS = [
     subject: 'SIM not activating after port',
     status: 'In Progress',
     source: 'Email',
+    priority: 'Medium',
     client_id: 1,
     contact_email: 'linda.holbrey@gmail.com',
     contact_phone: null,
@@ -177,6 +207,7 @@ export const INITIAL_TICKETS = [
     subject: 'Wrong handset colour delivered',
     status: 'Open',
     source: 'Email',
+    priority: 'Medium',
     client_id: 4,
     contact_email: 'hayley.acton@gmail.com',
     contact_phone: null,
@@ -197,6 +228,7 @@ export const INITIAL_TICKETS = [
     subject: 'Website enquiry: upgrade eligibility',
     status: 'Open',
     source: 'Website Form',
+    priority: 'Low',
     client_id: null,
     contact_email: null,
     contact_phone: '07421 558903',
@@ -217,6 +249,7 @@ export const INITIAL_TICKETS = [
     subject: 'Billing query - duplicate charge',
     status: 'Awaiting Customer',
     source: 'Email',
+    priority: 'High',
     client_id: 6,
     contact_email: 'edith.ashton@icloud.com',
     contact_phone: null,
@@ -245,6 +278,7 @@ export const INITIAL_TICKETS = [
     subject: 'Order stuck on Awaiting Stock',
     status: 'In Progress',
     source: 'Internal',
+    priority: 'Medium',
     client_id: 9,
     contact_email: null,
     contact_phone: null,
@@ -272,6 +306,7 @@ export const INITIAL_TICKETS = [
     subject: 'Direct debit failed - urgent',
     status: 'Open',
     source: 'Email',
+    priority: 'Urgent',
     client_id: 2,
     contact_email: 'zoe.larkins@outlook.com',
     contact_phone: null,
@@ -292,6 +327,7 @@ export const INITIAL_TICKETS = [
     subject: 'Request to cancel pending order',
     status: 'Awaiting Customer',
     source: 'Website Form',
+    priority: 'Medium',
     client_id: 3,
     contact_email: null,
     contact_phone: '07346 690335',
@@ -320,6 +356,7 @@ export const INITIAL_TICKETS = [
     subject: 'Coverage query for new connection',
     status: 'Resolved',
     source: 'Website Form',
+    priority: 'Low',
     client_id: null,
     contact_email: null,
     contact_phone: '07555 210934',
@@ -347,6 +384,7 @@ export const INITIAL_TICKETS = [
     subject: 'Complaint - call not returned',
     status: 'Closed',
     source: 'Email',
+    priority: 'High',
     client_id: 5,
     contact_email: 'daniel.rix@outlook.com',
     contact_phone: null,
@@ -375,6 +413,7 @@ export const INITIAL_TICKETS = [
     subject: 'Internal: escalate delayed handset dispatch',
     status: 'In Progress',
     source: 'Internal',
+    priority: 'High',
     client_id: 7,
     contact_email: null,
     contact_phone: null,
@@ -397,6 +436,7 @@ export const INITIAL_TICKETS = [
     subject: 'Unable to log into customer portal',
     status: 'Resolved',
     source: 'Email',
+    priority: 'Medium',
     client_id: 8,
     contact_email: 'patricia.bridge@outlook.com',
     contact_phone: null,
@@ -425,6 +465,7 @@ export const INITIAL_TICKETS = [
     subject: 'Website enquiry: new SIM only plan',
     status: 'Closed',
     source: 'Website Form',
+    priority: 'Low',
     client_id: null,
     contact_email: null,
     contact_phone: '07882 340117',
@@ -452,6 +493,7 @@ export const INITIAL_TICKETS = [
     subject: 'Internal: credit check review needed',
     status: 'Open',
     source: 'Internal',
+    priority: 'Medium',
     client_id: 1,
     contact_email: null,
     contact_phone: null,
@@ -472,6 +514,7 @@ export const INITIAL_TICKETS = [
     subject: 'Query about porting old number',
     status: 'Awaiting Customer',
     source: 'Email',
+    priority: 'Low',
     client_id: 9,
     contact_email: 'richard.freeman@gmail.com',
     contact_phone: null,

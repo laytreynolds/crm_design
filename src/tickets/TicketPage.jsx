@@ -6,12 +6,15 @@ import { useToast } from '../order/useToast.js';
 import { INITIAL_CLIENTS } from '../clients/clientsListData.js';
 import { AGENT_DISPLAY_NAMES } from '../orders/ordersListData.js';
 import {
+  formatTicketAge,
   formatTicketDateTime,
   getClientProfile,
   INITIAL_TICKETS,
+  PRIORITY_TONE,
   resolveLinkedOrder,
   stampNow,
   STATUS_TONE,
+  TICKET_PRIORITIES,
   TICKET_STAFF,
   TICKET_STATUSES,
 } from './ticketsData.js';
@@ -24,6 +27,7 @@ const NAV_SECTIONS = [
 ];
 
 const STATUS_SELECT_OPTIONS = TICKET_STATUSES.map((s) => ({ value: s, label: s }));
+const PRIORITY_SELECT_OPTIONS = TICKET_PRIORITIES.map((p) => ({ value: p, label: p }));
 const STAFF_SELECT_OPTIONS = [
   { value: '', label: 'Unassigned' },
   ...TICKET_STAFF.map((s) => ({ value: s, label: s })),
@@ -71,6 +75,21 @@ export function TicketPage({ onBack, ticketId, focusSection, onOpenOrder, onOpen
       ],
     }));
     showToast(`Status: ${newStatus}`);
+  }
+
+  function setPriority(newPriority) {
+    if (newPriority === ticket.priority) return;
+    const at = stampNow();
+    setTicket((prev) => ({
+      ...prev,
+      priority: newPriority,
+      updated_at: at,
+      notes: [
+        ...prev.notes,
+        { id: Date.now(), kind: 'note', text: `Priority changed from ${prev.priority} to ${newPriority}`, author: 'You', at },
+      ],
+    }));
+    showToast(`Priority: ${newPriority}`);
   }
 
   function setAssignee(name) {
@@ -148,12 +167,16 @@ export function TicketPage({ onBack, ticketId, focusSection, onOpenOrder, onOpen
             <h1 className="tk-header-name">{ticket.subject}</h1>
             <div className="tk-header-meta">
               <span className={`tk-status tk-status--${STATUS_TONE[ticket.status]}`}>{ticket.status}</span>
+              <span className={`tk-priority tk-priority--${PRIORITY_TONE[ticket.priority]}`}>
+                {ticket.priority}
+              </span>
               <Tag>{ticket.source}</Tag>
               <span>
                 Assigned <strong>{ticket.assigned_to || 'Unassigned'}</strong>
               </span>
               <span>Created {formatTicketDateTime(ticket.created_at)}</span>
               <span>Updated {formatTicketDateTime(ticket.updated_at)}</span>
+              <span>Open {formatTicketAge(ticket.created_at)}</span>
             </div>
           </div>
         </header>
@@ -165,6 +188,14 @@ export function TicketPage({ onBack, ticketId, focusSection, onOpenOrder, onOpen
               options={STATUS_SELECT_OPTIONS}
               value={ticket.status}
               onChange={(e) => setStatus(e.target.value)}
+            />
+          </div>
+          <div className="tk-actionbar-field">
+            <Select
+              label="Priority"
+              options={PRIORITY_SELECT_OPTIONS}
+              value={ticket.priority}
+              onChange={(e) => setPriority(e.target.value)}
             />
           </div>
           <div className="tk-actionbar-field">

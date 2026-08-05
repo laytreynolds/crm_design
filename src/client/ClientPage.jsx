@@ -3,6 +3,7 @@ import { Breadcrumb } from '../app/Breadcrumb.jsx';
 import { formatGBP } from '../dashboard/format.js';
 import { Badge, Button, Card, Icon, IconButton, Input, Select, Tag, Toast } from '../ds/index.js';
 import { useToast } from '../order/useToast.js';
+import { formatTicketAge, PRIORITY_TONE } from '../tickets/ticketsData.js';
 import { initialClient } from './clientData.js';
 import { getIn, setIn } from './fieldPath.js';
 import { ADDRESS_BLOCKS, ADDRESS_LINES, SECTIONS, SELECT_OPTIONS } from './schema.js';
@@ -317,8 +318,10 @@ function Tickets({ tickets, onOpenTicket }) {
       <div className="cp-tickets-row cp-tickets-head">
         <span>Subject</span>
         <span>Status</span>
+        <span>Priority</span>
         <span>Source</span>
         <span>Updated</span>
+        <span>Age</span>
         <span />
       </div>
       {tickets.map((ticket) => (
@@ -329,8 +332,14 @@ function Tickets({ tickets, onOpenTicket }) {
               {ticket.status}
             </span>
           </span>
+          <span>
+            <span className={`cp-ticket-priority cp-ticket-priority--${PRIORITY_TONE[ticket.priority]}`}>
+              {ticket.priority}
+            </span>
+          </span>
           <span>{ticket.source}</span>
           <span>{ticket.updatedAt}</span>
+          <span>{formatTicketAge(ticket.createdAt)}</span>
           <span className="cp-tickets-actions">
             <button type="button" onClick={() => onOpenTicket?.(ticket.id)}>
               View

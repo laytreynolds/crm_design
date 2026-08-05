@@ -289,6 +289,37 @@
   background: var(--ink-600);
 }
 
+/* Priority chips ------------------------------------------------------------
+   Same pill shape as `.tl-status--*`, same pattern duplicated in
+   ticket-page.css / clientPage.css since each page owns its own stylesheet. */
+
+.tl-priority {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.tl-priority--low {
+  background: var(--ink-500);
+}
+
+.tl-priority--medium {
+  background: #4d7ea8;
+}
+
+.tl-priority--high {
+  background: #d9822b;
+}
+
+.tl-priority--urgent {
+  background: #c0392b;
+}
+
 .tl-toast-anchor {
   position: fixed;
   bottom: 24px;

@@ -332,7 +332,7 @@ body {
 
 .cp-tickets-row {
   display: grid;
-  grid-template-columns: 1.8fr 1fr 1fr 1fr 0.6fr;
+  grid-template-columns: 1.6fr 0.9fr 0.9fr 0.9fr 1fr 0.7fr 0.6fr;
   gap: var(--space-4);
   align-items: center;
   padding: var(--space-3) 0;
@@ -403,6 +403,36 @@ body {
 
 .cp-ticket-status--closed {
   background: var(--ink-600);
+}
+
+/* Priority chips, same tones as tickets/ticket-page.css's `.tk-priority--*`
+   (duplicated here since each page owns its own stylesheet). */
+
+.cp-ticket-priority {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  white-space: nowrap;
+  text-align: center;
+}
+
+.cp-ticket-priority--low {
+  background: var(--ink-500);
+}
+
+.cp-ticket-priority--medium {
+  background: #4d7ea8;
+}
+
+.cp-ticket-priority--high {
+  background: #d9822b;
+}
+
+.cp-ticket-priority--urgent {
+  background: #c0392b;
 }
 
 /* Toast ----------------------------------------------------------------------- */

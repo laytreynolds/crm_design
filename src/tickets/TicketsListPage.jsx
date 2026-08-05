@@ -5,15 +5,18 @@ import { useToast } from '../order/useToast.js';
 import { getClientProfile } from './ticketsData.js';
 import {
   ASSIGNED_STAFF_OPTIONS,
+  formatTicketAge,
   formatTicketDateTime,
   INITIAL_TICKETS,
+  PRIORITY_TONE,
   STATUS_TONE,
+  TICKET_PRIORITIES,
   TICKET_SOURCES,
   TICKET_STATUSES,
 } from './ticketsData.js';
 import './tickets-list.css';
 
-const EMPTY_FILTERS = { status: '', source: '', assignedTo: '' };
+const EMPTY_FILTERS = { status: '', source: '', priority: '', assignedTo: '' };
 
 function searchableText(ticket) {
   const client = getClientProfile(ticket.client_id);
@@ -47,6 +50,7 @@ export function TicketsListPage({ onOpenTicket, initialStatus = null }) {
       if (q && !searchableText(ticket).includes(q)) return false;
       if (filters.status && ticket.status !== filters.status) return false;
       if (filters.source && ticket.source !== filters.source) return false;
+      if (filters.priority && ticket.priority !== filters.priority) return false;
       if (filters.assignedTo && ticket.assigned_to !== filters.assignedTo) return false;
       return true;
     });
@@ -151,6 +155,22 @@ export function TicketsListPage({ onOpenTicket, initialStatus = null }) {
               </div>
 
               <div className="tl-filter-field">
+                <label htmlFor="filter-priority">Priority</label>
+                <select
+                  id="filter-priority"
+                  value={filters.priority}
+                  onChange={(e) => setFilters((f) => ({ ...f, priority: e.target.value }))}
+                >
+                  <option value="">Priority</option>
+                  {TICKET_PRIORITIES.map((p) => (
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="tl-filter-field">
                 <label htmlFor="filter-assigned">Assigned To</label>
                 <select
                   id="filter-assigned"
@@ -181,12 +201,14 @@ export function TicketsListPage({ onOpenTicket, initialStatus = null }) {
               <tr>
                 <th>Subject</th>
                 <th>Status</th>
+                <th>Priority</th>
                 <th>Source</th>
                 <th>Client</th>
                 <th>Contact</th>
                 <th>Assigned</th>
                 <th>Created</th>
                 <th>Updated</th>
+                <th>Age</th>
               </tr>
             </thead>
             <tbody>
@@ -221,6 +243,11 @@ export function TicketsListPage({ onOpenTicket, initialStatus = null }) {
                       </span>
                     </td>
                     <td>
+                      <span className={`tl-priority tl-priority--${PRIORITY_TONE[ticket.priority]}`}>
+                        {ticket.priority}
+                      </span>
+                    </td>
+                    <td>
                       <Tag>{ticket.source}</Tag>
                     </td>
                     <td>
@@ -236,12 +263,13 @@ export function TicketsListPage({ onOpenTicket, initialStatus = null }) {
                     <td>{ticket.assigned_to || <span className="tl-unlinked">Unassigned</span>}</td>
                     <td className="tl-cell-truncate">{formatTicketDateTime(ticket.created_at)}</td>
                     <td className="tl-cell-truncate">{formatTicketDateTime(ticket.updated_at)}</td>
+                    <td className="tl-cell-truncate">{formatTicketAge(ticket.created_at)}</td>
                   </tr>
                 );
               })}
               {visible.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="tl-empty">
+                  <td colSpan={10} className="tl-empty">
                     No tickets match &ldquo;{query}&rdquo;.
                   </td>
                 </tr>
