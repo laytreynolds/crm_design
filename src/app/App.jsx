@@ -16,16 +16,15 @@ import { TicketPage } from '../tickets/TicketPage.jsx';
 
 // Nav id -> screen. Only these destinations have a built screen; the rest
 // of NAV_GROUPS stays inert until a real page exists for them. Settings'
-// sub-items are handled separately below since each one maps to the same
-// screen with a different settingId.
+// and tickets' sub-items are handled separately below since they need
+// extra state (settingId / ticketStatusFilter) beyond just a screen swap.
 const NAV_SCREEN = {
-  orders: 'orders-list',
+  'orders-all': 'orders-list',
   clients: 'clients-list',
   dashboard: 'dashboard',
   'my-dashboard': 'my-dashboard',
   users: 'users-list',
   permissions: 'permissions-list',
-  tickets: 'tickets-list',
 };
 
 // Tickets' sidebar sub-items map to a real status (unlike Orders' pipeline
@@ -49,8 +48,8 @@ const SCREEN_NAV = {
   'new-order': 'orders',
   'clients-list': 'clients',
   'client-detail': 'clients',
-  dashboard: 'dashboard',
-  'my-dashboard': 'my-dashboard',
+  dashboard: 'dashboards',
+  'my-dashboard': 'dashboards',
   'settings-detail': 'settings',
   'users-list': 'users',
   'permissions-list': 'permissions',
@@ -93,20 +92,16 @@ export function App() {
       setScreen('settings-detail');
       return;
     }
-    // 'settings' itself isn't a settingId — on desktop it's just an expand
-    // toggle in the sidebar, but the mobile tab bar has nowhere to reveal
-    // its children, so tapping it needs to land somewhere.
-    if (navId === 'settings') {
-      setSettingId('settings-lead-status');
-      setScreen('settings-detail');
-      return;
-    }
     if (navId in TICKET_STATUS_NAV) {
       setTicketStatusFilter(TICKET_STATUS_NAV[navId]);
       setScreen('tickets-list');
       return;
     }
-    if (navId === 'tickets') setTicketStatusFilter(null);
+    if (navId === 'tickets-all') {
+      setTicketStatusFilter(null);
+      setScreen('tickets-list');
+      return;
+    }
     const target = NAV_SCREEN[navId];
     if (target) setScreen(target);
   }

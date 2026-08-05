@@ -14,7 +14,10 @@ export function Sidebar({ active, onNavigate }) {
   }
 
   function handleItemClick(item) {
-    if (item.children) toggleExpanded(item.id);
+    if (item.children) {
+      toggleExpanded(item.id);
+      return;
+    }
     onNavigate?.(item.id);
   }
 

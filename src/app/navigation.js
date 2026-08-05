@@ -6,8 +6,20 @@ export const NAV_GROUPS = [
   {
     label: 'Main',
     items: [
-      { id: 'dashboard', label: 'Dashboard', icon: 'dashboard' },
-      { id: 'my-dashboard', label: 'My Dashboard', icon: 'person' },
+      {
+        id: 'dashboards',
+        label: 'Dashboards',
+        icon: 'dashboard',
+        children: [
+          {
+            group: null,
+            items: [
+              { id: 'dashboard', label: 'Dashboard' },
+              { id: 'my-dashboard', label: 'My Dashboard' },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -23,7 +35,11 @@ export const NAV_GROUPS = [
         icon: 'receipt_long',
         children: [
           {
-            group: 'All Orders',
+            group: null,
+            items: [{ id: 'orders-all', label: 'All Orders' }],
+          },
+          {
+            group: 'Status',
             items: [
               { id: 'orders-consumer-qc', label: 'Consumer QC' },
               { id: 'orders-awaiting-tekton-upload', label: 'Awaiting TEKTON Upload' },
@@ -60,7 +76,11 @@ export const NAV_GROUPS = [
         icon: 'confirmation_number',
         children: [
           {
-            group: 'All Tickets',
+            group: null,
+            items: [{ id: 'tickets-all', label: 'All Tickets' }],
+          },
+          {
+            group: 'Status',
             items: [
               { id: 'tickets-open', label: 'Open' },
               { id: 'tickets-in-progress', label: 'In Progress' },
