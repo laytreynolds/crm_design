@@ -16,8 +16,15 @@ import './order-page.css';
 
 // The new-order form covers every order field except the sections that only
 // make sense once an order exists: fulfilment, welcome calls and notes happen
-// afterwards, and finance's credit check history has nothing to show yet.
-const EXCLUDED_NEW_ORDER_SECTIONS = new Set(['fulfilment', 'welcomeCalls', 'notes', 'finance']);
+// afterwards, finance's credit check history has nothing to show yet, and
+// documents are uploaded against an order that already exists.
+const EXCLUDED_NEW_ORDER_SECTIONS = new Set([
+  'fulfilment',
+  'welcomeCalls',
+  'notes',
+  'finance',
+  'documents',
+]);
 const NEW_ORDER_SECTIONS = SECTIONS.filter(
   (section) => !EXCLUDED_NEW_ORDER_SECTIONS.has(section.key),
 );
