@@ -215,6 +215,14 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
           >
             Generate Welcome Documents
           </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={<Icon name="description" />}
+            onClick={() => showToast('Welcome documents generated')}
+          >
+            Generate Welcome SMS
+          </Button>
         </div>
 
         <nav className="os-navbar" aria-label="Order sections">
@@ -244,9 +252,8 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
                     key={section.key}
                     role="tab"
                     aria-selected={activeSection === section.key}
-                    className={`cds-tab os-navtab${
-                      activeSection === section.key ? ' cds-tab--active' : ''
-                    }`}
+                    className={`cds-tab os-navtab${activeSection === section.key ? ' cds-tab--active' : ''
+                      }`}
                     href={`#${section.id}`}
                     onClick={(e) => {
                       e.preventDefault();
@@ -287,11 +294,16 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
             {section.render
               ? renderers[section.render]()
               : (section.groups ?? [{ layout: section.layout, fields: section.fields }]).map(
-                  (group, i) => (
+                (group, i) => {
+                  const visibleFields = group.fields.filter(
+                    (field) => !field.handsetOnly || order.handsetSelect.catalogId,
+                  );
+                  if (visibleFields.length === 0) return null;
+                  return (
                     <div key={group.subhead ?? i}>
                       {group.subhead && <div className="os-subhead">{group.subhead}</div>}
                       <div className={group.layout === 'grid2' ? 'os-grid2' : 'os-grid3'}>
-                        {group.fields.map((field) => (
+                        {visibleFields.map((field) => (
                           <Field
                             key={field.path}
                             field={field}
@@ -302,8 +314,9 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
                         ))}
                       </div>
                     </div>
-                  ),
-                )}
+                  );
+                },
+              )}
           </SectionCard>
         ))}
       </div>

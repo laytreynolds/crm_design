@@ -12,6 +12,8 @@
  *   hint        helper text under the control
  *   placeholder placeholder text
  *   copy        renders a copy-to-clipboard button beside the control
+ *   handsetOnly hides the field on the Fulfilment screen unless a catalog
+ *               handset is selected (order.handsetSelect.catalogId is set)
  */
 
 const SELECT_PLACEHOLDER = { value: '', label: 'Select…' };
@@ -398,7 +400,7 @@ export const SECTIONS = [
         options: 'businessConsumer',
       },
       { path: 'additionalSale.newNetwork', label: 'New network' },
-      { path: 'additionalSale.connectionDate', label: 'Connection date', type: 'date' },
+      { path: 'additionalSale.connectionDate', label: 'Connection / Port date', type: 'date' },
       { path: 'additionalSale.portDate', label: 'Port date', type: 'date' },
     ],
   },
@@ -454,37 +456,74 @@ export const SECTIONS = [
     id: 'fulfilment',
     nav: 'Fulfilment',
     title: 'Fulfilment',
-    layout: 'grid2',
-    fields: [
-      { path: 'fulfilment.newContractEndDate', label: 'New contract end date', type: 'date' },
-      { path: 'fulfilment.connectionDate', label: 'Connection date', type: 'date' },
-      { path: 'fulfilment.networkAccountNumber', label: 'Network account number' },
-      { path: 'fulfilment.imeiNumber', label: 'IMEI number' },
-      { path: 'fulfilment.simNumber', label: 'SIM number' },
-      { path: 'fulfilment.temporaryNumber', label: 'Temporary number' },
+    groups: [
       {
-        path: 'fulfilment.handsetDispatched',
-        label: 'Handset dispatched',
-        type: 'select',
-        options: 'yesNa',
+        layout: 'grid2',
+        fields: [
+          { path: 'fulfilment.newContractEndDate', label: 'New contract end date', type: 'date' },
+          { path: 'fulfilment.connectionDate', label: 'Connection / Port date', type: 'date' },
+          { path: 'fulfilment.networkAccountNumber', label: 'Network account number' },
+          { path: 'fulfilment.simNumber', label: 'SIM number' },
+          { path: 'fulfilment.temporaryNumber', label: 'Temporary number' },
+          {
+            path: 'fulfilment.simDispatched',
+            label: 'SIM dispatched',
+            type: 'select',
+            options: 'yesNa',
+          },
+          { path: 'fulfilment.welcomeEmailSent', label: 'Welcome email sent', type: 'checkbox' },
+          {
+            path: 'fulfilment.contractDocumentSent',
+            label: 'Contract document sent',
+            type: 'checkbox',
+          },
+        ],
       },
       {
-        path: 'fulfilment.simDispatched',
-        label: 'SIM dispatched',
-        type: 'select',
-        options: 'yesNa',
+        subhead: 'Handset',
+        layout: 'grid2',
+        fields: [
+          { path: 'fulfilment.imeiNumber', label: 'IMEI number', handsetOnly: true },
+          {
+            path: 'fulfilment.handsetDispatched',
+            label: 'Handset dispatched',
+            type: 'checkbox',
+            handsetOnly: true,
+          },
+          {
+            path: 'fulfilment.handsetReturned',
+            label: 'Handset returned',
+            type: 'checkbox',
+            handsetOnly: true,
+          },
+          {
+            path: 'fulfilment.handsetReturnReceived',
+            label: 'Handset return received',
+            type: 'checkbox',
+            handsetOnly: true,
+          },
+        ],
       },
-      { path: 'fulfilment.welcomeEmailSent', label: 'Welcome email sent', type: 'checkbox' },
       {
-        path: 'fulfilment.contractDocumentSent',
-        label: 'Contract document sent',
-        type: 'checkbox',
-      },
-      { path: 'fulfilment.handsetReturned', label: 'Handset returned', type: 'checkbox' },
-      {
-        path: 'fulfilment.handsetReturnReceived',
-        label: 'Handset return received',
-        type: 'checkbox',
+        subhead: 'Postage',
+        layout: 'grid2',
+        fields: [
+          {
+            path: 'fulfilment.postage.trackingNumber',
+            label: 'Royal Mail tracking number',
+            copy: true,
+          },
+          {
+            path: 'fulfilment.postage.labelUrl',
+            label: 'Royal Mail label URL',
+            copy: true,
+          },
+          {
+            path: 'fulfilment.postage.generatedAt',
+            label: 'Generated',
+            type: 'datetime-local',
+          },
+        ],
       },
     ],
   },

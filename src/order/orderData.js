@@ -102,6 +102,11 @@ export const initialOrder = {
     simDispatched: '',
     handsetReturned: false,
     handsetReturnReceived: false,
+    postage: {
+      trackingNumber: '',
+      labelUrl: '',
+      generatedAt: '',
+    },
   },
   welcomeCalls: {
     completeOrNotRequired: '',
@@ -470,6 +475,11 @@ function buildOrderFromRow(row) {
       simDispatched: '',
       handsetReturned: false,
       handsetReturnReceived: false,
+      postage: {
+        trackingNumber: '',
+        labelUrl: '',
+        generatedAt: '',
+      },
     },
     welcomeCalls: {
       completeOrNotRequired: '',
