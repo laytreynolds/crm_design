@@ -115,6 +115,12 @@ body {
   display: flex;
   gap: var(--space-3);
   flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Push the Generate menu to the trailing edge, away from the status controls. */
+.os-actionbar .cds-menu {
+  margin-left: auto;
 }
 
 /* Section jump nav -------------------------------------------------------- */

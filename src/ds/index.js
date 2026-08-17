@@ -5,6 +5,7 @@ export { Button } from './components/core/Button.jsx';
 export { Card } from './components/core/Card.jsx';
 export { Icon } from './components/core/Icon.jsx';
 export { IconButton } from './components/core/IconButton.jsx';
+export { Menu } from './components/core/Menu.jsx';
 export { Tag } from './components/core/Tag.jsx';
 
 export { Dialog } from './components/feedback/Dialog.jsx';

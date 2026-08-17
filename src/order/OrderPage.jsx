@@ -9,6 +9,7 @@ import {
   Icon,
   IconButton,
   Input,
+  Menu,
   Select,
   Tag,
   Toast,
@@ -184,7 +185,7 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
 
         <div className="os-actionbar">
           <Button
-            variant="secondary"
+            variant="primary"
             size="sm"
             icon={<Icon name="flag" />}
             onClick={() => showToast(`Status: Pending · ${statusDate}`)}
@@ -199,30 +200,28 @@ export function OrderPage({ onBack, orderId, focusSection, onOpenClient } = {}) 
           >
             {assignedTo}
           </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            icon={<Icon name="grid_view" />}
-            onClick={() => showToast('Connection grid generated')}
-          >
-            Generate connection grid
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            icon={<Icon name="description" />}
-            onClick={() => showToast('Welcome documents generated')}
-          >
-            Generate Welcome Documents
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            icon={<Icon name="description" />}
-            onClick={() => showToast('Welcome documents generated')}
-          >
-            Generate Welcome SMS
-          </Button>
+          <Menu
+            label="Generate"
+            icon={<Icon name="bolt" />}
+            align="end"
+            items={[
+              {
+                label: 'Connection grid',
+                icon: 'grid_view',
+                onSelect: () => showToast('Connection grid generated'),
+              },
+              {
+                label: 'Welcome documents',
+                icon: 'description',
+                onSelect: () => showToast('Welcome documents generated'),
+              },
+              {
+                label: 'Welcome SMS',
+                icon: 'sms',
+                onSelect: () => showToast('Welcome SMS generated'),
+              },
+            ]}
+          />
         </div>
 
         <nav className="os-navbar" aria-label="Order sections">
