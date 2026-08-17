@@ -498,6 +498,40 @@ body {
   .os-header-actions {
     align-items: flex-start;
   }
+
+  /* Stack the order actions into a full-width column on phones: bigger tap
+     targets, and no zig-zag from the Generate menu's trailing-edge alignment. */
+  .os-actionbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Left-align content so the stacked buttons read as a deliberate action
+     list rather than stretched centre-aligned pills. */
+  .os-actionbar .cds-btn {
+    justify-content: flex-start;
+  }
+
+  .os-actionbar .cds-menu {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .os-actionbar .cds-menu-trigger {
+    width: 100%;
+  }
+
+  /* Anchor the caret to the trailing edge of the full-width trigger. */
+  .os-actionbar .cds-menu-caret {
+    margin-left: auto;
+  }
+
+  /* Drop the menu full-width beneath its trigger. */
+  .os-actionbar .cds-menu-list {
+    left: 0;
+    right: 0;
+    width: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
